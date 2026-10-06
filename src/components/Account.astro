@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { home, type Locale } from '../data/i18n';
+import { accountCopy } from '../data/account';
+const { locale = 'en' } = Astro.props as { locale: Locale };
+const t = accountCopy[locale];
+// These are browser-safe credentials, never a Supabase secret/service-role key.
+const url = import.meta.env.PUBLIC_SUPABASE_URL || '';
+const key = import.meta.env.PUBLIC_SUPABASE_PUBLISHABLE_KEY || '';
+if (key && !key.startsWith('sb_publishable_')) {
+  throw new Error('PUBLIC_SUPABASE_PUBLISHABLE_KEY must be a Supabase publishable key, never a secret or service-role key.');
+}
+---
+<Layout locale={locale} title={`${t.signin} — Calcora`} description={t.description} noindex={true}>
+  <section class="container account-page">
+    <div class="account-intro"><span class="eyebrow"><span class="tiny-dot"></span>{t.eyebrow}</span><h1>{t.title}</h1><p>{t.intro}</p><div class="account-art" aria-hidden="true">✳ <em>aha.</em></div><p class="account-privacy">{t.privacy} <a href={`${home(locale)}privacy/`}>{locale === 'en' ? 'Privacy policy' : 'Политика конфиденциальности'} ↗</a></p></div>
+    <div class="account-card" data-account data-url={url} data-key={key}>
+      <div class="account-tabs" data-auth-tabs><button type="button" data-auth-mode="signin" aria-pressed="true">{t.signin}</button><button type="button" data-auth-mode="signup" aria-pressed="false">{t.signup}</button></div>
+      <p class="account-status" role="status" aria-live="polite" data-auth-status>{t.checking}</p>
+      <form data-auth-form hidden>
+        <div data-email-field><label for="account-email">{t.email}</label><input id="account-email" name="email" type="email" autocomplete="email" maxlength="254" required /></div>
+        <div data-password-field><label for="account-password">{t.password}</label><input id="account-password" name="password" type="password" autocomplete="current-password" required /><p class="account-hint" data-signup-hint hidden>{t.hint}</p></div>
+        <div data-confirm-field hidden><label for="account-confirm">{t.confirmation}</label><input id="account-confirm" type="password" autocomplete="new-password" minlength="8" /></div>
+        <button type="submit" class="button button-dark full-width" data-auth-submit>{t.signin}</button>
+        <button type="button" class="account-text-button" data-auth-forgot>{t.forgot}</button>
+        <button type="button" class="account-text-button" data-auth-back hidden>{t.back}</button>
+      </form>
+      <div data-auth-profile hidden><span class="eyebrow">{t.signedIn}</span><p class="account-email" data-user-email></p><h2>{t.welcome}</h2><p class="account-note">{t.note}</p><a class="button button-dark full-width" href={`${home(locale)}#catalog`}>{t.explore} ↗</a><button type="button" class="account-text-button" data-auth-change>{t.changePassword}</button><button type="button" class="button button-outline full-width" data-auth-signout>{t.signout}</button></div>
+      <noscript>{locale === 'en' ? 'Enable JavaScript to sign in.' : 'Включите JavaScript для входа.'}</noscript>
+    </div>
+  </section>
+  <script id="account-copy" type="application/json" set:html={JSON.stringify(t).replace(/</g, '\\u003c')}/>
+  <script>import '../scripts/account';</script>
+</Layout>
+<style>
+  .account-page{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;padding-block:80px 100px;min-height:650px}
+  .account-intro h1{font-size:clamp(40px,4.6vw,64px);max-width:520px}.account-intro>p{color:var(--muted);margin-top:22px;max-width:430px}.account-art{background:var(--lilac);border-radius:16px;padding:28px 36px;margin-block:32px;color:var(--purple);font-size:44px;max-width:430px}.account-art em{font-size:54px;margin-left:20px}.account-intro .account-privacy{font-size:12px}.account-privacy a{color:var(--purple)}
+  .account-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:36px;box-shadow:0 16px 50px #27292408}.account-tabs{display:flex;gap:8px;padding:5px;background:var(--bg);border-radius:8px}.account-tabs button{flex:1;background:transparent;border-radius:5px;padding:12px 8px;font-size:12px}.account-tabs button[aria-pressed=true]{background:var(--lilac);color:var(--purple)}.account-status{font-size:13px;margin-block:20px;overflow-wrap:anywhere}.account-status:empty{display:none}.account-status[data-error=true]{color:#9b3535}
+  form>div{margin-block:20px}label{display:block;font-size:12px;font-weight:600;margin-bottom:7px}input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}.account-hint{font-size:11px;color:var(--muted);margin-top:8px}.account-text-button{display:block;background:transparent;color:var(--purple);padding:14px 0;font-size:12px}.account-note{color:var(--muted);margin-block:20px;font-size:13px}.account-card h2{font-size:30px}.account-email{overflow-wrap:anywhere;margin-bottom:22px}.account-card .eyebrow{margin-bottom:7px}button:disabled{opacity:.6;cursor:wait}
+  @media(max-width:900px){.account-page{gap:35px}.account-card{padding:26px}.header-actions{gap:14px}.desktop-nav{margin-left:0}}
+  @media(max-width:700px){.account-page{grid-template-columns:1fr;padding-block:40px 60px;gap:28px}.account-art{display:none}.account-intro .account-privacy{margin-top:16px}.account-card{padding:24px}.account-intro h1{font-size:40px}}
+</style>

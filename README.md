@@ -35,6 +35,30 @@ After merging this change into `main`, Netlify deploys `netlify/functions/explai
 
 Create the key in an OpenAI API project with billing enabled; a ChatGPT subscription does not include API usage. Set a project budget alert and provider rate limits before sharing the public AI button. Budget alerts do not guarantee a hard spending cap. Test the button in English and Russian after deployment. Live provider calls require your key and have not been tested in this workspace.
 
+## Email accounts with Supabase
+
+Pages `/account/` and `/ru/account/` support sign-up, email confirmation, password sign-in, sign-out and password recovery. Account pages are excluded from indexing and the sitemap. AI usage is still public; this change does not add per-user limits, saved calculations, subscriptions or billing.
+
+In Supabase, enable the Email provider and email confirmation. Set Site URL to `https://calcora-ai.netlify.app` and add the exact redirect URL `https://calcora-ai.netlify.app/account/` (both languages use this callback). For real users, configure your own SMTP under Authentication → Emails: the default Supabase email service restricts recipient addresses to your project team and has low sending limits. Keep confirmation enabled.
+
+In Netlify, add these **public, browser-safe** variables available during production builds:
+
+- `PUBLIC_SUPABASE_URL`: the Supabase project HTTPS URL.
+- `PUBLIC_SUPABASE_PUBLISHABLE_KEY`: the publishable key (`sb_publishable_…`) from Supabase API Keys. Never use a secret key (`sb_secret_…`) or `service_role` key.
+
+Redeploy after changing either variable. These public values are intentionally included in browser code; row-level security is required for any future user tables. No database tables, privileged database credentials or migrations are needed for this auth-only change. Missing variables show an honest unavailable message and leave calculators working. For local development, add the values to `.env`, add your local account callback to Supabase Redirect URLs, then rebuild/restart. Browser sessions are managed by the official Supabase client, including refresh and email callback handling. Sign out on shared devices.
+
+Validation uses a fake Supabase project and intercepted requests; it does not create real users or send emails. Live email delivery, confirmation, password recovery and sign-in must be checked after configuration. A password-recovery link opens the English account page; the language switch preserves the signed-in session.
+
+To run the account browser flows with the fake project (use the same variables for both build and tests):
+
+```sh
+PUBLIC_SUPABASE_URL=https://calcora-test.supabase.co PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_test npm run build
+PUBLIC_SUPABASE_URL=https://calcora-test.supabase.co PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_test npm run test:ui
+```
+
+Rebuild with your own production variables before publishing; the fixture values are for tests only.
+
 ## SEO and publication
 
 For automatic Netlify deploys, connect this repository to the existing Netlify project and select the `main` branch. `netlify.toml` sets the build command, output folder, and Node.js version. On Netlify, SEO URLs use the primary production domain supplied by Netlify (`URL`), so a project rename or primary-domain change is reflected after the next production build. Deploy previews and branch deploys are excluded from indexing.
