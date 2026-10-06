@@ -108,3 +108,11 @@ Success and cancellation pages exist in both languages and are noindex/excluded 
 For a sandbox purchase use Stripe’s test card **4242 4242 4242 4242**, a future expiry, any three-digit CVC, and fictitious US customer details. The zero-dollar shipping option is explicitly simulated; it is not a promise of free real shipping. Taxes are not calculated in this sandbox. Live sales require actual prices/stock, shipping/tax configuration, seller/return terms and a verified merchant account; durable webhook-based fulfillment must be implemented before automatically processing real orders.
 
 Local test checkout needs `STRIPE_SECRET_KEY=sk_test_…` in ignored `.env`, plus `PUBLIC_SITE_URL=http://localhost:4321`; rebuild and restart `npm start`. Never publish the fake browser-test Supabase values. API and browser tests mock Stripe and do not make real provider requests. A real sandbox round trip remains required after the key is configured.
+
+## Interactive product presentation
+
+The homepage progressively loads a local Three.js scene when the hero is near the viewport. It uses a procedural calculator body, raised keys, a texture atlas, studio lighting and pointer/keyboard rotation. This is a stylized product illustration, not a manufacturer CAD model. No remote 3D/CDN assets are requested. Cards use perspective and a moving highlight; section reveals and the concept illustration add scroll motion.
+
+Touch interaction preserves vertical scrolling. Arrow keys rotate the focused scene and Escape resets it. Browsers without WebGL, lost contexts and failed imports retain the original SVG. With reduced motion enabled at load, the 3D bundle is not fetched and content remains visible. Animation stops outside the viewport or in a hidden tab, and pauses behind dialogs. Geometry instancing, a shared key atlas, a small environment map, capped resolution and adaptive frame rates reduce rendering cost. Cart, accounts and Stripe sandbox checkout are unchanged.
+
+`tests/motion.spec.ts` exercises reduced motion, WebGL-unavailable behavior, a rendered scene, keyboard controls and context-loss fallback alongside the existing checkout/account suite.
