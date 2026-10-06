@@ -3,7 +3,6 @@ import { evaluate, futureValue, convert, unitGroups } from './math';
 const t = JSON.parse(document.getElementById('ui-copy')?.textContent || '{}');
 const locale = document.documentElement.lang === 'ru' ? 'ru-RU' : 'en-US';
 const calculatorDialog = document.getElementById('calculator-dialog') as HTMLDialogElement;
-const planDialog = document.getElementById('plan-dialog') as HTMLDialogElement;
 let activeTool = 'scientific';
 let lastTrigger: HTMLElement | null = null;
 const number = (value: number) => new Intl.NumberFormat(locale, { maximumSignificantDigits: 12 }).format(value);
@@ -36,21 +35,6 @@ const mobileMenu = document.getElementById('mobile-nav')!;
 menuToggle?.addEventListener('click', () => { const expanded = menuToggle.getAttribute('aria-expanded') === 'true'; menuToggle.setAttribute('aria-expanded',String(!expanded)); mobileMenu.hidden=expanded; });
 mobileMenu.querySelectorAll('a,button').forEach(link => link.addEventListener('click', () => { mobileMenu.hidden=true; menuToggle?.setAttribute('aria-expanded','false'); }));
 document.querySelectorAll<HTMLAnchorElement>('.language-switch a').forEach(link => link.addEventListener('click', () => { link.hash=window.location.hash; }));
-document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach(button => button.addEventListener('click', () => {
-  const category = button.dataset.filter;
-  document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach(tab=>{ const selected=tab===button; tab.classList.toggle('active',selected); tab.setAttribute('aria-pressed',String(selected)); });
-  let count=0;
-  document.querySelectorAll<HTMLElement>('[data-tool-card]').forEach(card=>{ card.hidden=category!=='all' && card.dataset.category!==category; if(!card.hidden) count++; });
-  const counter=document.getElementById('catalog-count');
-  if(counter) counter.textContent=locale==='ru-RU' ? `${count} ${count===1?'калькулятор':count<5?'калькулятора':'калькуляторов'}` : `${count} calculator${count===1?'':'s'}`;
-}));
-document.querySelectorAll<HTMLButtonElement>('[data-billing]').forEach(button => button.addEventListener('click', () => {
-  const yearly=button.dataset.billing==='yearly';
-  document.querySelectorAll<HTMLButtonElement>('[data-billing]').forEach(tab=>{tab.classList.toggle('active',tab===button);tab.setAttribute('aria-pressed',String(tab===button));});
-  document.querySelectorAll<HTMLElement>('[data-price-monthly]').forEach(price=>price.textContent=currency(Number(yearly?price.dataset.priceYearly:price.dataset.priceMonthly)).replace(/\.00$/, '').replace(/,00(?=\s|$)/, ''));
-  document.querySelectorAll<HTMLElement>('[data-billing-note]').forEach(note=>note.textContent=yearly?t.billedYearly:t.billedMonthly);
-}));
-document.querySelectorAll<HTMLElement>('[data-plan]').forEach(button=>button.addEventListener('click',()=>{document.getElementById('selected-plan')!.textContent=button.dataset.plan!;showDialog(planDialog,button);}));
 
 function calculate(form: HTMLFormElement) {
   const slug=form.dataset.calculatorForm!;

@@ -5,7 +5,11 @@
 
 # Calcora
 
-A bilingual AI calculator product website. English is the default; the EN/RU switch at the top right navigates to fully translated Russian pages. Built with Astro, TypeScript, and locally hosted fonts.
+A bilingual demonstration store for physical scientific calculators. The storefront uses a dark charcoal/lavender design, a four-model collection, dedicated product pages, filters and a browser-persisted shopping bag. English is the default; the top-right EN/RU switch preserves the page. Astro, TypeScript, and locally hosted fonts.
+
+The three conventional models are Casio fx-300ES PLUS, Casio fx-991CW and TI-30X IIS. Their prices are examples and their visuals are original stylized illustrations, not product photographs. Confirm exact regional editions, manufacturer specifications, photography rights, stock and final prices before selling. These Casio/TI devices do not contain AI. Calcora AI One is an unavailable future hardware concept; it cannot be added to the bag.
+
+The bag supports quantities (1–20 per model), removal, totals and persistence across both languages. Preview checkout explicitly reports that no order/payment is submitted. No payment details or delivery addresses are collected. Product markup omits demo offers, reviews and inventory claims; the AI concept and account pages are excluded from indexing. Existing online calculator pages and the AI explanation endpoint remain available as an optional website companion, distinct from embedded hardware AI.
 
 ## Run locally
 
@@ -37,7 +41,7 @@ Create the key in an OpenAI API project with billing enabled; a ChatGPT subscrip
 
 ## Email accounts with Supabase
 
-Pages `/account/` and `/ru/account/` support sign-up, email confirmation, password sign-in, sign-out and password recovery. Account pages are excluded from indexing and the sitemap. AI usage is still public; this change does not add per-user limits, saved calculations, subscriptions or billing.
+Pages `/account/` and `/ru/account/` support sign-up, email confirmation, password sign-in, sign-out and password recovery. Account pages are excluded from indexing and the sitemap. AI usage is still public. Store accounts do not yet have per-user AI limits, orders, saved calculations or payments.
 
 In Supabase, enable the Email provider and email confirmation. Set Site URL to `https://calcora-ai.netlify.app` and add the exact redirect URL `https://calcora-ai.netlify.app/account/` (both languages use this callback). For real users, configure your own SMTP under Authentication → Emails: the default Supabase email service restricts recipient addresses to your project team and has low sending limits. Keep confirmation enabled.
 
@@ -70,11 +74,11 @@ Set `PUBLIC_SITE_URL` in `.env` to the real HTTPS origin and rebuild. Until a do
 - Static HTML with localized titles, descriptions, and a single H1.
 - Canonical URLs and reciprocal English/Russian `hreflang`, with English as `x-default`.
 - `sitemap.xml`, `robots.txt`, Open Graph and Twitter metadata, and a 1200 × 630 sharing image.
-- WebSite and WebApplication structured data without invented reviews or ratings.
+- WebSite, Product and WebApplication structured data without invented reviews or ratings.
 
 Deploy `dist/` to static hosting for local calculators, or run `npm start` on a Node.js host for AI explanations. Host the application behind HTTPS. Static hosting must support directory index pages and the custom 404 page. The Node server supports these directly.
 
-Subscription prices and paid features are design examples. Payments, accounts, billing, history, and PDF export are not implemented. Before selling subscriptions, connect a payment provider and account system, replace the proposed plans with real offers, and publish seller details and actual legal terms. Financial results are illustrative estimates with end-of-month deposits and monthly compounding; they do not predict returns.
+Device prices are design examples. Accounts are connected through Supabase, but purchasing, inventory, taxes, shipping and order history are not implemented. Before selling devices, connect payments and fulfillment and publish seller details, returns and actual legal terms. Financial results are illustrative estimates with end-of-month deposits and monthly compounding; they do not predict returns.
 
 ## Validation
 
@@ -85,10 +89,10 @@ npm run build
 npm run test:ui
 ```
 
-The UI suite uses system Chromium when available. Otherwise run `npx playwright install chromium` once, or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE`. Tests cover English/Russian routes, filtering, all calculators, invalid expressions, AI-unavailable feedback, pricing toggles, mobile navigation, metadata, and 404 responses. The UI suite starts a separate server on port 4322.
+The UI suite uses system Chromium when available. Otherwise run `npx playwright install chromium` once, or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE`. Tests cover English/Russian routes, product filtering, cart persistence and totals, concept exclusions, online calculators, AI-unavailable feedback, mocked account flows, mobile navigation, metadata and 404 responses. The UI suite starts a separate server on port 4322.
 
-Translations and tool descriptions: `src/data/i18n.ts`. Main page: `src/components/Landing.astro`. Shared styles: `src/styles/global.css`. Expression parser: `src/scripts/math.ts`. Optional AI server: `server.mjs`.
+Store copy and products: `src/data/shop.ts`. Storefront: `src/components/Landing.astro`. Illustrations: `src/components/Device.astro`. Dark theme: `src/styles/shop.css`. Cart: `src/scripts/shop.ts`. Existing online tool copy: `src/data/i18n.ts`. Expression parser: `src/scripts/math.ts`. Optional AI server: `server.mjs`.
 
 ## По-русски
 
-Основной язык — английский. Русская версия находится в `/ru/`, переключатель EN/RU расположен справа вверху и сохраняет текущую страницу. Четыре калькулятора работают локально; ИИ-объяснения требуют серверного ключа `OPENAI_API_KEY`. Для индексации укажите настоящий домен в `PUBLIC_SITE_URL` и пересоберите сайт. Тарифы пока демонстрационные, оплата не подключена.
+Основной язык — английский. Русская версия находится в `/ru/`, переключатель EN/RU расположен справа вверху и сохраняет текущую страницу. Четыре калькулятора работают локально; ИИ-объяснения требуют серверного ключа `OPENAI_API_KEY`. Для индексации укажите настоящий домен в `PUBLIC_SITE_URL` и пересоберите сайт. Каталог физических устройств и цены демонстрационные, оплата и доставка не подключены. Обычные Casio и TI не имеют встроенного ИИ; Calcora AI One — будущий аппаратный концепт.
