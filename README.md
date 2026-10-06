@@ -25,15 +25,21 @@ npm start
 
 ## Optional AI explanations
 
-Copy `.env.example` to `.env`, then set `OPENAI_API_KEY` securely on the server. The key stays server-side. `OPENAI_MODEL` defaults to `gpt-4.1-mini`. `npm start` serves the built pages and the `/api/explain` endpoint; development/static hosting only supports local calculations.
+Copy `.env.example` to `.env`, then set `OPENAI_API_KEY` securely on the server. The key stays server-side. `OPENAI_MODEL` defaults to `gpt-4.1-mini`. `npm start` serves the built pages and the `/api/explain` endpoint; the Astro development server and manual static uploads only support local calculations. Netlify repository deploys include the serverless function at the same endpoint.
 
-The endpoint sends the selected calculation to OpenAI only when the visitor requests an explanation. Missing configuration returns HTTP 503 with a clear message in the UI. Numeric calculations use explicit local formulas; they are never presented as AI-generated output. The server has a demo limit of 60 explanations per day and two concurrent requests. Live provider responses have not been validated without credentials.
+The endpoint sends the selected calculation to OpenAI only when the visitor requests an explanation. Missing configuration returns HTTP 503 with a clear message in the UI. Numeric calculations use explicit local formulas; they are never presented as AI-generated output. The demo limits are 60 explanations per day and two concurrent requests per running instance. Netlify can start multiple instances and reset counters; these limits are not an account-wide spending cap. Live provider responses have not been validated without credentials.
+
+### Enable AI on Netlify
+
+After merging this change into `main`, Netlify deploys `netlify/functions/explain.mjs` automatically. In **Project configuration → Environment variables**, add `OPENAI_API_KEY` as a secret, available to **Functions** in **Production**. Do not use a `PUBLIC_` prefix or commit the value. `OPENAI_MODEL` is optional (default `gpt-4.1-mini`). Redeploy after changing variables. Deploy previews deliberately return `AI_NOT_CONFIGURED`.
+
+Create the key in an OpenAI API project with billing enabled; a ChatGPT subscription does not include API usage. Set a project budget alert and provider rate limits before sharing the public AI button. Budget alerts do not guarantee a hard spending cap. Test the button in English and Russian after deployment. Live provider calls require your key and have not been tested in this workspace.
 
 ## SEO and publication
 
 For automatic Netlify deploys, connect this repository to the existing Netlify project and select the `main` branch. `netlify.toml` sets the build command, output folder, and Node.js version. On Netlify, SEO URLs use the primary production domain supplied by Netlify (`URL`), so a project rename or primary-domain change is reflected after the next production build. Deploy previews and branch deploys are excluded from indexing.
 
-Keep the Google Search Console verification HTML file in `public/` before switching from manual uploads to repository builds. It is currently only in the folder uploaded manually by the site owner; an automatic build cannot preserve files that are absent from the repository. Downloaded verification files can be copied into `public/` unchanged, then committed.
+Keep the Google Search Console verification HTML file in `public/` before switching from manual uploads to repository builds. The verification file uploaded by the site owner is tracked there and preserved by builds. Downloaded verification files can be copied into `public/` unchanged, then committed.
 
 Set `PUBLIC_SITE_URL` in `.env` to the real HTTPS origin and rebuild. Until a domain is configured, the demo deliberately uses `noindex` and `robots.txt` disallows indexing. With a domain, the build produces:
 
