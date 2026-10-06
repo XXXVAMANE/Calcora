@@ -6,6 +6,7 @@ import { canIndex } from '../utils/seo';
 import { shopCopy, products } from '../data/shop';
 import '../styles/global.css';
 import '../styles/shop.css';
+import '../styles/motion.css';
 const { locale = 'en', title, description, schema, noindex = false } = Astro.props;
 const lang = locale as Locale;
 const t = copy[lang];
@@ -63,6 +64,6 @@ const jsonLd = schema || { '@context': 'https://schema.org', '@type': 'WebSite',
     <script id="shop-copy" type="application/json" set:html={JSON.stringify(st).replace(/</g,'\\u003c')}/>
     <script id="shop-products" type="application/json" set:html={JSON.stringify(products.map(product=>({slug:product.slug,brand:product.brand,model:product.model,price:product.price}))).replace(/</g,'\\u003c')}/>
     <script id="ui-copy" type="application/json" set:html={JSON.stringify(t).replace(/</g, '\\u003c')}/>
-    <script>import '../scripts/store'; import '../scripts/shop'; import '../scripts/checkout-return';</script>
+    <script>import '../scripts/store'; import '../scripts/shop'; import '../scripts/checkout-return'; import '../scripts/motion';</script>
   </body>
 </html>
