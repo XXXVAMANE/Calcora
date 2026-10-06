@@ -2,6 +2,7 @@
 import Icon from '../components/Icon.astro';
 import CalculatorPanel from '../components/CalculatorPanel.astro';
 import { copy, home, type Locale } from '../data/i18n';
+import { canIndex } from '../utils/seo';
 import '../styles/global.css';
 const { locale = 'en', title, description, schema, noindex = false } = Astro.props;
 const lang = locale as Locale;
@@ -24,7 +25,7 @@ const jsonLd = schema || { '@context': 'https://schema.org', '@type': 'WebSite',
     <meta name="theme-color" content="#f7f7f2" />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
-    <meta name="robots" content={!production || noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
+    <meta name="robots" content={!canIndex(Astro.site) || noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
     {canonical && <link rel="canonical" href={canonical} />}
     <link rel="alternate" hreflang="en" href={production ? new URL(englishPath, Astro.site).href : englishPath} />
     <link rel="alternate" hreflang="ru" href={production ? new URL(russianPath, Astro.site).href : russianPath} />

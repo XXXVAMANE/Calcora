@@ -31,6 +31,10 @@ The endpoint sends the selected calculation to OpenAI only when the visitor requ
 
 ## SEO and publication
 
+For automatic Netlify deploys, connect this repository to the existing Netlify project and select the `main` branch. `netlify.toml` sets the build command, output folder, and Node.js version. On Netlify, SEO URLs use the primary production domain supplied by Netlify (`URL`), so a project rename or primary-domain change is reflected after the next production build. Deploy previews and branch deploys are excluded from indexing.
+
+Keep the Google Search Console verification HTML file in `public/` before switching from manual uploads to repository builds. It is currently only in the folder uploaded manually by the site owner; an automatic build cannot preserve files that are absent from the repository. Downloaded verification files can be copied into `public/` unchanged, then committed.
+
 Set `PUBLIC_SITE_URL` in `.env` to the real HTTPS origin and rebuild. Until a domain is configured, the demo deliberately uses `noindex` and `robots.txt` disallows indexing. With a domain, the build produces:
 
 - Static HTML with localized titles, descriptions, and a single H1.
