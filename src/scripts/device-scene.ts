@@ -87,7 +87,7 @@ export async function createDeviceScene(host: HTMLElement) {
   let lastDraw=0;
   let targetX=0,targetY=0,currentX=0,currentY=0,scroll=0,visible=true,frame=0,previous=0,start=0,disposed=false,contextLost=false;
   let animated=!matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const resize=new ResizeObserver(()=>{const {width,height}=host.getBoundingClientRect();if(!width||!height)return;renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();wake();});resize.observe(host);
+  const resize=new ResizeObserver(()=>{const {width,height}=host.getBoundingClientRect();if(!width||!height)return;renderer.setSize(width,height,false);camera.aspect=width/height;camera.position.z=width<420?10.2:8.7;camera.updateProjectionMatrix();wake();});resize.observe(host);
   function render(now:number) {
     frame=0;if(disposed||contextLost||!visible||document.hidden)return;
     if(animated&&(now-lastDraw<frameInterval||document.querySelector('dialog[open]'))){frame=requestAnimationFrame(render);return;}lastDraw=now;
@@ -95,7 +95,7 @@ export async function createDeviceScene(host: HTMLElement) {
     const blend=1-Math.exp(-delta*7);currentX+=(targetX-currentX)*blend;currentY+=(targetY-currentY)*blend;
     const elapsed=(now-start)/1000;
     model.rotation.set(-.05+currentY*.18+scroll*.04,-.18+currentX*.38,-.12+currentX*.04);
-    model.position.y=.42+(animated?Math.sin(elapsed*.7)*.035:0)+scroll*.06;
+    model.position.y=(host.clientWidth<420?.55:.42)+(animated?Math.sin(elapsed*.7)*.035:0)+scroll*.06;
     light.position.x=-3+currentX*3;rim.position.y=1+currentY*2;
     renderer.render(scene,camera);host.dataset.webgl='ready';
     if(animated)frame=requestAnimationFrame(render);
