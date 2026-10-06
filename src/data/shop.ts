@@ -1,4 +1,5 @@
 import type { Locale } from './i18n';
+import catalog from '../../lib/catalog.json';
 
 export const shopCopy = {
   en: {
@@ -24,14 +25,14 @@ export const shopCopy = {
     faq: [
       ['Are these physical calculators?', 'Yes. The collection features physical calculator models. This website is a store demo: stock, prices, delivery and checkout have not been configured for real sales.'],
       ['Do the Casio calculators have built-in AI?', 'No. The listed Casio and Texas Instruments models are conventional scientific calculators. Calcora AI One is a separate future hardware concept. The optional AI companion on this website explains calculations online.'],
-      ['Can I place an order today?', 'You can explore models and build a demo shopping bag. No order is submitted and no payment is collected. Real purchasing will be enabled after seller details, inventory, payments and delivery are connected.'],
+      ['Can I place an order today?', 'You can try USD checkout with a US address after Stripe test mode is configured. Test transactions are recorded in Stripe; no real money is charged or device shipped. Real sales, shipping and taxes are not enabled.'],
       ['Which calculator can I use in an exam?', 'Exam rules depend on the institution, country and exam. Check the exact model with your teacher or exam provider before buying. We do not claim universal exam approval.'],
     ],
     closing: 'Make room for\nyour next big idea.', closingCta: 'Explore calculators', footer: 'Thoughtful tools.\nExtraordinary possibilities.',
     demo: 'Demo store · sample prices · no real orders', privacy: 'Privacy', onlineTools: 'Online companion',
     cartTitle: 'Your bag.', empty: 'A little room for possibility.', emptyText: 'Your bag is empty. Explore the collection to find your next calculator.',
     total: 'Subtotal', quantity: 'Quantity', remove: 'Remove', cartNote: 'Demo bag. Prices are examples; shipping and taxes are not calculated. No payment or order is submitted.',
-    checkout: 'Preview checkout', checkoutNotice: 'Checkout is not connected yet. Your bag is saved on this device; no order has been placed.', added: 'Added to your bag', continue: 'Continue exploring',
+    checkout: 'Test checkout', checkoutNotice: 'Test payments are not configured yet. Your bag is saved; no order has been placed.', checkoutBusy: 'Opening Stripe…', checkoutFailed: 'Could not open checkout. Please try again.', checkoutNote: 'Test mode · USD · US addresses only. No real charge or delivery. Shipping is simulated; real shipping and taxes are not configured.', added: 'Added to your bag', continue: 'Continue exploring',
     back: 'The collection', specs: 'A closer look.', highlights: 'Designed for everyday clarity.', power: 'Power', display: 'Display', category: 'Type', aiLabel: 'Built-in AI', noAi: 'No', futureAi: 'Proposed · not yet available',
     accountNote: 'Store accounts are available. Orders and payments are not connected yet.',
   },
@@ -58,27 +59,27 @@ export const shopCopy = {
     faq: [
       ['Это физические калькуляторы?', 'Да, в коллекции представлены модели физических устройств. Пока это демонстрационный магазин: наличие, цены, доставка и оплата для реальных продаж не подключены.'],
       ['В калькуляторах Casio есть встроенный ИИ?', 'Нет. Представленные модели Casio и Texas Instruments — обычные научные калькуляторы. Calcora AI One — отдельный концепт будущего устройства. ИИ-помощник на сайте объясняет вычисления онлайн.'],
-      ['Можно оформить заказ сейчас?', 'Можно изучить модели и собрать демонстрационную корзину. Заказ не отправляется, деньги не списываются. Покупки станут доступны после подключения продавца, наличия, оплаты и доставки.'],
+      ['Можно оформить заказ сейчас?', 'После настройки Stripe можно попробовать тестовую оплату в USD с адресом в США. Тестовая транзакция сохраняется в Stripe. Настоящие деньги не списываются, устройство не отправляется. Реальные продажи, доставка и налоги не подключены.'],
       ['Какой калькулятор разрешён на экзамене?', 'Правила зависят от учебного заведения, страны и экзамена. Уточните допуск конкретной модели у преподавателя или организатора до покупки. Универсального разрешения на все экзамены нет.'],
     ],
     closing: 'Место для вашей\nследующей большой идеи.', closingCta: 'Выбрать калькулятор', footer: 'Продуманные инструменты.\nНеобыкновенные возможности.',
     demo: 'Демо-магазин · примерные цены · без реальных заказов', privacy: 'Конфиденциальность', onlineTools: 'Онлайн-помощник',
     cartTitle: 'Ваша корзина.', empty: 'Место для новых возможностей.', emptyText: 'Корзина пока пуста. Найдите свой калькулятор в коллекции.',
     total: 'Сумма товаров', quantity: 'Количество', remove: 'Удалить', cartNote: 'Демо-корзина. Цены примерные, доставка и налоги не рассчитаны. Оплата и отправка заказа не выполняются.',
-    checkout: 'Посмотреть оформление', checkoutNotice: 'Оформление заказа пока не подключено. Корзина сохранена на этом устройстве; заказ не отправлен.', added: 'Добавлено в корзину', continue: 'Продолжить выбор',
+    checkout: 'Тестовая оплата', checkoutNotice: 'Тестовая оплата ещё не настроена. Корзина сохранена; заказ не оформлен.', checkoutBusy: 'Открываем Stripe…', checkoutFailed: 'Не удалось открыть оплату. Попробуйте ещё раз.', checkoutNote: 'Тестовый режим · USD · адреса только в США. Без настоящего списания и доставки. Доставка имитируется; реальные тарифы и налоги не настроены.', added: 'Добавлено в корзину', continue: 'Продолжить выбор',
     back: 'Коллекция', specs: 'Ближе к деталям.', highlights: 'Для ясности в каждом расчёте.', power: 'Питание', display: 'Экран', category: 'Тип', aiLabel: 'Встроенный ИИ', noAi: 'Нет', futureAi: 'Планируется · пока недоступен',
     accountNote: 'Аккаунты магазина доступны. Заказы и оплата пока не подключены.',
   },
 } as const;
 
 export const products = [
-  { slug: 'casio-fx-300es-plus', brand: 'CASIO', model: 'fx-300ES PLUS', category: 'classroom', price: 24.99, color: 'lilac', ai: false,
+  { slug: 'casio-fx-300es-plus', brand: 'CASIO', model: 'fx-300ES PLUS', category: 'classroom', price: catalog['casio-fx-300es-plus'].unitAmount / 100, color: 'lilac', ai: false,
     en: { tag: 'Everyday essential', description: 'A familiar companion for fractions, formulas and your next “aha” moment.', features: ['Natural Textbook Display', 'Fractions & scientific calculations', 'Solar power with battery backup'], power: 'Solar + battery', display: 'Natural Textbook Display', type: 'Scientific calculator' },
     ru: { tag: 'На каждый день', description: 'Знакомый помощник для дробей, формул и следующего «теперь понятно».', features: ['Natural Textbook Display', 'Дроби и научные вычисления', 'Солнечное питание и батарея'], power: 'Солнечное + батарея', display: 'Natural Textbook Display', type: 'Научный калькулятор' } },
-  { slug: 'casio-fx-991cw', brand: 'CASIO', model: 'fx-991CW', category: 'scientific', price: 34.99, color: 'sage', ai: false,
+  { slug: 'casio-fx-991cw', brand: 'CASIO', model: 'fx-991CW', category: 'scientific', price: catalog['casio-fx-991cw'].unitAmount / 100, color: 'sage', ai: false,
     en: { tag: 'Go a little further', description: 'Explore advanced scientific work with the ClassWiz interface.', features: ['ClassWiz menu interface', 'Equations, matrices & statistics', 'Solar power with battery backup'], power: 'Solar + battery', display: 'High-resolution textbook display', type: 'Advanced scientific calculator' },
     ru: { tag: 'На шаг дальше', description: 'Более сложные научные задачи с интерфейсом ClassWiz.', features: ['Меню ClassWiz', 'Уравнения, матрицы и статистика', 'Солнечное питание и батарея'], power: 'Солнечное + батарея', display: 'Дисплей высокого разрешения', type: 'Продвинутый научный калькулятор' } },
-  { slug: 'ti-30x-iis', brand: 'TEXAS INSTRUMENTS', model: 'TI-30X IIS', category: 'classroom', price: 19.99, color: 'peach', ai: false,
+  { slug: 'ti-30x-iis', brand: 'TEXAS INSTRUMENTS', model: 'TI-30X IIS', category: 'classroom', price: catalog['ti-30x-iis'].unitAmount / 100, color: 'peach', ai: false,
     en: { tag: 'Keep it simple', description: 'A straightforward two-line scientific calculator for everyday learning.', features: ['Two-line display', 'Fractions & statistics', 'Solar power with battery backup'], power: 'Solar + battery', display: 'Two-line display', type: 'Scientific calculator' },
     ru: { tag: 'Всё просто', description: 'Понятный научный калькулятор с двухстрочным экраном для повседневной учёбы.', features: ['Двухстрочный экран', 'Дроби и статистика', 'Солнечное питание и батарея'], power: 'Солнечное + батарея', display: 'Двухстрочный экран', type: 'Научный калькулятор' } },
   { slug: 'calcora-ai-one', brand: 'CALCORA', model: 'AI One', category: 'ai', price: null, color: 'ai', ai: true,

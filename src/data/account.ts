@@ -15,7 +15,7 @@ export const accountCopy = {
     resetSent: 'If this email has an account, a password reset link will arrive in your inbox.',
     updated: 'Your password has been updated.', expired: 'This email link could not be used. Request a new one below.',
     welcome: 'Welcome to your account.', signedIn: 'Signed in as', signout: 'Sign out', changePassword: 'Change password',
-    explore: 'Explore the collection', note: 'Your store account is ready. Orders and payments are not connected yet.',
+    explore: 'Explore the collection', note: 'Your store account is ready. Test checkout is available from the bag once Stripe is configured. Order history is not linked to this account yet.',
     privacy: 'Your email and sign-in session are managed by Supabase. Your calculations stay in your browser unless you request an AI explanation.',
   },
   ru: {
@@ -34,7 +34,7 @@ export const accountCopy = {
     resetSent: 'Если аккаунт с этой почтой существует, вам придёт ссылка для сброса пароля.',
     updated: 'Пароль обновлён.', expired: 'Не удалось использовать ссылку из письма. Запросите новую ссылку ниже.',
     welcome: 'Добро пожаловать в аккаунт.', signedIn: 'Вы вошли как', signout: 'Выйти', changePassword: 'Изменить пароль',
-    explore: 'Посмотреть коллекцию', note: 'Аккаунт магазина готов. Заказы и оплата пока не подключены.',
+    explore: 'Посмотреть коллекцию', note: 'Аккаунт магазина готов. После настройки Stripe тестовая оплата доступна из корзины. История заказов пока не связана с аккаунтом.',
     privacy: 'Supabase обрабатывает вашу почту и сеанс входа. Расчёты остаются в браузере, пока вы не запросите объяснение ИИ.',
   },
 } as const;

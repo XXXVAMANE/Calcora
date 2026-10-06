@@ -40,7 +40,7 @@ test('demo bag totals, quantities, removal and checkout remain honest across lan
   await bag.getByRole('spinbutton').fill('2');
   await bag.getByRole('spinbutton').press('Tab');
   await expect(bag.locator('[data-bag-total]')).toHaveText('$49.98');
-  await bag.getByRole('button', { name: 'Preview checkout' }).click();
+  await bag.getByRole('button', { name: 'Test checkout' }).click();
   await expect(bag.locator('[data-checkout-notice]')).toContainText('no order has been placed');
   await page.keyboard.press('Escape');
   await expect(page.locator('[data-open-bag]')).toBeFocused();

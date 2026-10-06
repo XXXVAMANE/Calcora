@@ -9,7 +9,7 @@ A bilingual demonstration store for physical scientific calculators. The storefr
 
 The three conventional models are Casio fx-300ES PLUS, Casio fx-991CW and TI-30X IIS. Their prices are examples and their visuals are original stylized illustrations, not product photographs. Confirm exact regional editions, manufacturer specifications, photography rights, stock and final prices before selling. These Casio/TI devices do not contain AI. Calcora AI One is an unavailable future hardware concept; it cannot be added to the bag.
 
-The bag supports quantities (1–20 per model), removal, totals and persistence across both languages. Preview checkout explicitly reports that no order/payment is submitted. No payment details or delivery addresses are collected. Product markup omits demo offers, reviews and inventory claims; the AI concept and account pages are excluded from indexing. Existing online calculator pages and the AI explanation endpoint remain available as an optional website companion, distinct from embedded hardware AI.
+The bag supports quantities (1–20 per model), removal, totals and persistence across both languages. Optional Stripe sandbox checkout accepts USD and US shipping addresses on Stripe’s hosted page. Test transactions are recorded in Stripe; no real charges or shipments occur. Card details never pass through this application. Product markup omits demo offers, reviews and inventory claims; the AI concept and account pages are excluded from indexing. Existing online calculator pages and the AI explanation endpoint remain available as an optional website companion, distinct from embedded hardware AI.
 
 ## Run locally
 
@@ -78,7 +78,7 @@ Set `PUBLIC_SITE_URL` in `.env` to the real HTTPS origin and rebuild. Until a do
 
 Deploy `dist/` to static hosting for local calculators, or run `npm start` on a Node.js host for AI explanations. Host the application behind HTTPS. Static hosting must support directory index pages and the custom 404 page. The Node server supports these directly.
 
-Device prices are design examples. Accounts are connected through Supabase, but purchasing, inventory, taxes, shipping and order history are not implemented. Before selling devices, connect payments and fulfillment and publish seller details, returns and actual legal terms. Financial results are illustrative estimates with end-of-month deposits and monthly compounding; they do not predict returns.
+Device prices are design examples. Accounts are connected through Supabase, but real purchasing, inventory, taxes, shipping and account order history are not implemented. Before selling devices, connect payments and fulfillment and publish seller details, returns and actual legal terms. Financial results are illustrative estimates with end-of-month deposits and monthly compounding; they do not predict returns.
 
 ## Validation
 
@@ -96,3 +96,15 @@ Store copy and products: `src/data/shop.ts`. Storefront: `src/components/Landing
 ## По-русски
 
 Основной язык — английский. Русская версия находится в `/ru/`, переключатель EN/RU расположен справа вверху и сохраняет текущую страницу. Четыре калькулятора работают локально; ИИ-объяснения требуют серверного ключа `OPENAI_API_KEY`. Для индексации укажите настоящий домен в `PUBLIC_SITE_URL` и пересоберите сайт. Каталог физических устройств и цены демонстрационные, оплата и доставка не подключены. Обычные Casio и TI не имеют встроенного ИИ; Calcora AI One — будущий аппаратный концепт.
+
+## USD checkout for the United States (Stripe sandbox)
+
+Create a Stripe account and open a **Sandbox** / **Test mode**. In Netlify environment variables add `STRIPE_SECRET_KEY` as a secret available to production Functions, using the sandbox secret key beginning `sk_test_`. Keep existing OpenAI and Supabase variables. Redeploy. This implementation deliberately rejects live keys while catalog prices and fulfillment remain examples. Do not enter a key in chat, frontend code or Git.
+
+`/api/checkout` creates a hosted Stripe Checkout session using the shared server catalog in `lib/catalog.json`, USD, card payments and US-only shipping addresses. Client prices and return URLs are ignored; unknown/concept products, duplicates, noninteger quantities and quantities outside 1–20 are rejected. Requests have size bounds and a provider timeout. A stable UUID per unchanged cart provides Stripe idempotency for retries. Preview deployments do not contact Stripe.
+
+Success and cancellation pages exist in both languages and are noindex/excluded from the sitemap. Success verifies the Checkout session with Stripe; a success URL alone never confirms payment. Only a verified paid/complete test purchase clears its matching browser cart snapshot, once. Failed or cancelled payment preserves the cart. Stripe stores the test payment, items, email and shipping information even if the browser does not return. No separate Supabase order table, webhook, automated fulfillment, account order history or real payment processing is implemented. The seller reviews test payments in the Stripe sandbox Dashboard.
+
+For a sandbox purchase use Stripe’s test card **4242 4242 4242 4242**, a future expiry, any three-digit CVC, and fictitious US customer details. The zero-dollar shipping option is explicitly simulated; it is not a promise of free real shipping. Taxes are not calculated in this sandbox. Live sales require actual prices/stock, shipping/tax configuration, seller/return terms and a verified merchant account; durable webhook-based fulfillment must be implemented before automatically processing real orders.
+
+Local test checkout needs `STRIPE_SECRET_KEY=sk_test_…` in ignored `.env`, plus `PUBLIC_SITE_URL=http://localhost:4321`; rebuild and restart `npm start`. Never publish the fake browser-test Supabase values. API and browser tests mock Stripe and do not make real provider requests. A real sandbox round trip remains required after the key is configured.

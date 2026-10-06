@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { home, type Locale } from '../data/i18n';
+const { locale = 'en', cancelled = false } = Astro.props as { locale: Locale; cancelled?: boolean };
+const en = locale === 'en';
+const title = cancelled ? (en ? 'Checkout cancelled.' : 'Оплата отменена.') : (en ? 'Checking your test payment.' : 'Проверяем тестовую оплату.');
+const note = cancelled ? (en ? 'Your bag is saved. No payment was completed.' : 'Корзина сохранена. Оплата не завершена.') : (en ? 'We verify the payment with Stripe before confirming it.' : 'Проверяем статус в Stripe перед подтверждением.');
+---
+<Layout locale={locale} title={`${title} — Calcora`} noindex={true}>
+  <section class="container checkout-return" data-checkout-return data-cancelled={cancelled}>
+    <span class="eyebrow"><span class="tiny-dot"></span>{en ? 'TEST CHECKOUT · USD · UNITED STATES' : 'ТЕСТОВАЯ ОПЛАТА · USD · США'}</span>
+    <h1 data-payment-title>{title}</h1><p role="status" aria-live="polite" data-payment-status>{note}</p>
+    <p data-payment-total hidden></p><p>{en ? 'This is a test purchase. No real money is charged and no calculator will be shipped.' : 'Это тестовая покупка. Настоящие деньги не списываются, калькулятор не будет отправлен.'}</p>
+    <a class="button button-dark" href={`${home(locale)}#catalog`}>{en ? 'Back to the collection' : 'Вернуться в каталог'} ↗</a>
+    <button class="button button-outline" data-open-bag>{en ? 'Open bag' : 'Открыть корзину'}</button>
+    <noscript>{en ? 'Enable JavaScript to verify payment status.' : 'Включите JavaScript для проверки оплаты.'}</noscript>
+  </section>
+</Layout>
