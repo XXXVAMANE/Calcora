@@ -68,7 +68,24 @@ document.querySelectorAll<HTMLElement>('[data-open-bag]').forEach(button => butt
   render(); dialog.showModal(); document.body.style.overflow = 'hidden';
 }));
 dialog.addEventListener('close', () => trigger?.focus());
-document.querySelector('[data-preview-checkout]')!.addEventListener('click', () => { notice.hidden = false; });
+const checkout = document.querySelector<HTMLButtonElement>('[data-preview-checkout]')!;
+let attempt = '', fingerprint = '';
+checkout.addEventListener('click', async () => {
+  if (checkout.disabled || !items.length) return;
+  const contents = JSON.stringify(items);
+  if (fingerprint !== contents) { fingerprint = contents; attempt = crypto.randomUUID(); }
+  checkout.disabled = true; notice.hidden = false; notice.textContent = copy.checkoutBusy;
+  try {
+    const result = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items, locale, attempt }), signal: AbortSignal.timeout(20000) });
+    const data = await result.json();
+    if (!result.ok) { notice.textContent = data.error === 'CHECKOUT_NOT_CONFIGURED' ? copy.checkoutNotice : copy.checkoutFailed; return; }
+    const destination = new URL(data.url);
+    if (destination.origin !== 'https://checkout.stripe.com' || data.test !== true) throw Error();
+    try { sessionStorage.setItem('calcora-checkout', JSON.stringify({ id: data.id, items })); } catch {}
+    window.location.assign(destination.href);
+  } catch { notice.textContent = copy.checkoutFailed; }
+  finally { checkout.disabled = false; }
+});
 window.addEventListener('storage', event => { if (event.key === storageKey) { load(); render(); } });
 document.querySelectorAll<HTMLButtonElement>('[data-shop-filter]').forEach(button => button.addEventListener('click', () => {
   document.querySelectorAll<HTMLButtonElement>('[data-shop-filter]').forEach(tab => { tab.classList.toggle('active', tab === button); tab.setAttribute('aria-pressed', String(tab === button)); });
