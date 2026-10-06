@@ -3,12 +3,15 @@ import Icon from '../components/Icon.astro';
 import CalculatorPanel from '../components/CalculatorPanel.astro';
 import { copy, home, type Locale } from '../data/i18n';
 import { canIndex } from '../utils/seo';
+import { shopCopy, products } from '../data/shop';
 import '../styles/global.css';
+import '../styles/shop.css';
 const { locale = 'en', title, description, schema, noindex = false } = Astro.props;
 const lang = locale as Locale;
 const t = copy[lang];
-const pageTitle = title || t.title;
-const pageDescription = description || t.description;
+const st = shopCopy[lang];
+const pageTitle = title || st.title;
+const pageDescription = description || st.description;
 const root = home(lang);
 const production = Astro.site && Astro.site.hostname !== 'example.com';
 const pathname = Astro.url.pathname;
@@ -22,7 +25,7 @@ const jsonLd = schema || { '@context': 'https://schema.org', '@type': 'WebSite',
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f7f7f2" />
+    <meta name="theme-color" content="#101114" />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     <meta name="robots" content={!canIndex(Astro.site) || noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
@@ -46,17 +49,20 @@ const jsonLd = schema || { '@context': 'https://schema.org', '@type': 'WebSite',
   </head>
   <body>
     <a class="skip-link" href="#main">{t.skip}</a>
-    <div class="announcement"><span>{t.announcement}</span><a href={`${root}#how`}>{t.announcementLink}<Icon name="diagonal" size={11}/></a></div>
-    <header class="header"><div class="container header-inner">
-      <a class="brand" href={root} aria-label="Calcora"><span class="brand-icon" aria-hidden="true"><span></span><span></span><span></span><span></span></span>calcora<span class="brand-dot">✳</span></a>
-      <nav class="desktop-nav" aria-label={lang === 'en' ? 'Main navigation' : 'Основная навигация'}><a href={`${root}#catalog`}>{t.calculators}</a><a href={`${root}#how`}>{t.how}</a><a href={`${root}#pricing`}>{t.pricing}</a></nav>
-      <div class="header-actions"><a class="account-nav" href={`${root}account/`}>{lang === 'en' ? 'Sign in' : 'Войти'}</a><div class="language-switch" aria-label={lang === 'en' ? 'Language' : 'Язык'}><a href={englishPath} lang="en" hreflang="en" class:list={{ active: lang === 'en' }} aria-current={lang === 'en' ? 'page' : undefined}>EN</a><span>/</span><a href={russianPath} lang="ru" hreflang="ru" class:list={{ active: lang === 'ru' }} aria-current={lang === 'ru' ? 'page' : undefined}>RU</a></div><button class="button button-small button-dark header-try" data-open-tool="scientific">{t.tryFree}<Icon name="diagonal" size={16}/></button><button class="icon-button mobile-menu-button" data-menu-toggle aria-label={t.menu} aria-expanded="false" aria-controls="mobile-nav"><Icon name="menu"/></button></div>
-    </div><nav class="mobile-nav" id="mobile-nav" aria-label={t.menu} hidden><a href={`${root}#catalog`}>{t.calculators}</a><a href={`${root}#how`}>{t.how}</a><a href={`${root}#pricing`}>{t.pricing}</a><a href={`${root}account/`}>{lang === 'en' ? 'Account' : 'Аккаунт'}</a><button data-open-tool="scientific">{t.tryFree} ↗</button></nav></header>
+    <div class="announcement shop-announcement"><span>{st.announcement}</span><a href={`${root}#catalog`}>{st.announcementLink}<Icon name="diagonal" size={11}/></a></div>
+    <header class="header shop-header"><div class="container header-inner">
+      <a class="brand" href={root} aria-label="Calcora"><span class="brand-icon" aria-hidden="true"><span></span><span></span><span></span><span></span></span>calcora<span class="brand-dot">✱</span></a>
+      <nav class="desktop-nav" aria-label={lang==='en'?'Main navigation':'Основная навигация'}><a href={`${root}#catalog`}>{st.catalog}</a><a href={`${root}#approach`}>{st.about}</a><a href={`${root}#faq`}>{st.help}</a></nav>
+      <div class="header-actions"><a class="account-nav" href={`${root}account/`}>{st.account}</a><div class="language-switch" aria-label={lang==='en'?'Language':'Язык'}><a href={englishPath} lang="en" hreflang="en" class:list={{active:lang==='en'}} aria-current={lang==='en'?'page':undefined}>EN</a><span>/</span><a href={russianPath} lang="ru" hreflang="ru" class:list={{active:lang==='ru'}} aria-current={lang==='ru'?'page':undefined}>RU</a></div><button class="bag-button" data-open-bag aria-label={st.bag}><Icon name="bag" size={20}/><span data-bag-count>0</span></button><button class="icon-button mobile-menu-button" data-menu-toggle aria-label={t.menu} aria-expanded="false" aria-controls="mobile-nav"><Icon name="menu"/></button></div>
+    </div><nav class="mobile-nav" id="mobile-nav" aria-label={t.menu} hidden><a href={`${root}#catalog`}>{st.catalog}</a><a href={`${root}#approach`}>{st.about}</a><a href={`${root}#faq`}>{st.help}</a><a href={`${root}account/`}>{st.account}</a><button data-open-tool="scientific">{st.onlineTools} ↗</button></nav></header>
     <main id="main"><slot /></main>
-    <footer class="footer"><div class="container"><div class="footer-main"><div><a class="brand" href={root}>calcora<span class="brand-dot">✳</span></a><p class="preserve-lines">{t.footerText}</p></div><div class="footer-links"><div><span class="micro-label">{t.explore}</span><a href={`${root}#catalog`}>{t.calculators}</a><a href={`${root}#how`}>{t.how}</a><a href={`${root}#pricing`}>{t.pricing}</a></div><div><span class="micro-label">{t.information}</span><a href={`${root}#philosophy`}>{lang === 'en' ? 'Our approach' : 'Наш подход'}</a><a href={`${root}#faq`}>{lang === 'en' ? 'Questions & answers' : 'Вопросы и ответы'}</a><a href={`${root}privacy/`}>{t.privacy}</a><a href={`${root}account/`}>{lang === 'en' ? 'Account' : 'Аккаунт'}</a></div></div><div class="footer-note"><span class="footer-symbol" aria-hidden="true">✳</span><p class="preserve-lines">{t.footerMark}</p></div></div><div class="footer-bottom"><span>© {new Date().getFullYear()} Calcora</span><span>{t.footerDemo}</span><a href="#main">{t.top} ↑</a></div></div></footer>
-    <dialog class="calculator-dialog" id="calculator-dialog" aria-labelledby="calculator-title"><div class="dialog-heading"><div><span class="eyebrow"><span class="tiny-dot"></span>{t.demo}</span><h2 id="calculator-title">{t.calculatorTitle}</h2></div><button class="icon-button" data-close-dialog aria-label={t.close}><Icon name="close"/></button></div><CalculatorPanel locale={lang}/></dialog>
-    <dialog class="plan-dialog" id="plan-dialog" aria-labelledby="plan-title"><div class="dialog-heading"><h2 id="plan-title">{t.planTitle}</h2><button class="icon-button" data-close-dialog aria-label={t.planClose}><Icon name="close"/></button></div><span class="plan-badge" id="selected-plan"></span><p>{t.planMessage}</p><button class="button button-dark full-width" data-open-tool="scientific">{t.planAction}<Icon name="arrow"/></button></dialog>
+    <footer class="footer shop-footer"><div class="container"><div class="footer-main"><div><a class="brand" href={root}>calcora<span class="brand-dot">✱</span></a><p class="preserve-lines">{st.footer}</p></div><div class="footer-links"><div><span class="micro-label">{lang==='en'?'EXPLORE':'КОЛЛЕКЦИЯ'}</span><a href={`${root}#catalog`}>{st.catalog}</a><a href={`${root}#ai-concept`}>Calcora AI One</a><button class="footer-tool" data-open-tool="scientific">{st.onlineTools}</button></div><div><span class="micro-label">{lang==='en'?'INFORMATION':'ИНФОРМАЦИЯ'}</span><a href={`${root}#faq`}>{st.help}</a><a href={`${root}privacy/`}>{st.privacy}</a><a href={`${root}account/`}>{st.account}</a></div></div><div class="footer-note"><span class="footer-symbol" aria-hidden="true">✱</span><p>{lang==='en'?'A little more possibility.':'Немного больше возможностей.'}</p></div></div><div class="footer-bottom"><span>© {new Date().getFullYear()} Calcora</span><span>{st.demo}</span><a href="#main">{t.top} ↑</a></div></div></footer>
+    <dialog class="calculator-dialog" id="calculator-dialog" aria-labelledby="calculator-title"><div class="dialog-heading"><div><span class="eyebrow"><span class="tiny-dot"></span>{st.onlineTools}</span><h2 id="calculator-title">{t.calculatorTitle}</h2></div><button class="icon-button" data-close-dialog aria-label={t.close}><Icon name="close"/></button></div><CalculatorPanel locale={lang}/></dialog>
+    <dialog class="bag-dialog" id="bag-dialog" aria-labelledby="bag-title"><div class="dialog-heading"><h2 id="bag-title">{st.cartTitle}</h2><button class="icon-button" data-close-dialog aria-label={lang==='en'?'Close bag':'Закрыть корзину'}><Icon name="close"/></button></div><div class="bag-empty" data-bag-empty><Icon name="bag" size={36}/><h3>{st.empty}</h3><p>{st.emptyText}</p></div><div data-bag-items></div><div class="bag-summary" data-bag-summary hidden><div><span>{st.total}</span><strong data-bag-total></strong></div><p>{st.cartNote}</p><button class="button button-dark full-width" data-preview-checkout>{st.checkout}<Icon name="arrow" size={17}/></button></div><p class="bag-notice" data-checkout-notice role="status" hidden>{st.checkoutNotice}</p><button class="text-link" data-close-dialog>{st.continue}<Icon name="arrow" size={16}/></button></dialog>
+    <div class="shop-toast" data-shop-toast role="status" hidden>{st.added}</div>
+    <script id="shop-copy" type="application/json" set:html={JSON.stringify(st).replace(/</g,'\\u003c')}/>
+    <script id="shop-products" type="application/json" set:html={JSON.stringify(products.map(product=>({slug:product.slug,brand:product.brand,model:product.model,price:product.price}))).replace(/</g,'\\u003c')}/>
     <script id="ui-copy" type="application/json" set:html={JSON.stringify(t).replace(/</g, '\\u003c')}/>
-    <script>import '../scripts/store';</script>
+    <script>import '../scripts/store'; import '../scripts/shop';</script>
   </body>
 </html>

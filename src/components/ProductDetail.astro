@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Device from './Device.astro';
+import Icon from './Icon.astro';
+import { home, type Locale } from '../data/i18n';
+import { shopCopy, products, priceText, productPath, type Product } from '../data/shop';
+import ProductCard from './ProductCard.astro';
+const { product, locale = 'en' } = Astro.props as { product: Product; locale: Locale };
+const t = shopCopy[locale], text = product[locale];
+const url = Astro.site ? new URL(productPath(locale,product.slug),Astro.site).href : undefined;
+const schema = { '@context':'https://schema.org', '@type':product.ai?'CreativeWork':'Product', name:`${product.brand} ${product.model}`, description:text.description, ...(product.ai?{}:{brand:{'@type':'Brand',name:product.brand},model:product.model}), ...(url?{url}:{}) };
+---
+<Layout locale={locale} title={`${product.brand} ${product.model} — Calcora`} description={text.description} schema={schema} noindex={product.ai}>
+  <div class="container physical-detail"><nav class="breadcrumbs"><a href={`${home(locale)}#catalog`}>{t.back}</a><span>/</span><span>{product.brand} {product.model}</span></nav><div class="physical-grid"><div class:list={['detail-device-stage',product.color]}><Device id="detail-device" brand={product.brand} model={product.model} concept={product.ai}/><span>{t.illustration}</span></div><div class="physical-copy"><div class="eyebrow"><span class="tiny-dot"></span>{text.tag}</div><span class="product-brand">{product.brand}</span><h1>{product.model}</h1><p>{text.description}</p><ul class="product-features">{text.features.map(feature=><li><Icon name="check" size={17}/>{feature}</li>)}</ul>{product.price!==null ? <><div class="detail-price">{priceText(product.price,locale)}<span>{t.samplePrice}</span></div><button class="button button-dark" data-add-product={product.slug}>{t.add}<Icon name="bag" size={19}/></button><p class="detail-disclaimer">{t.demo}</p></> : <><span class="concept-price">{t.concept}</span><p class="detail-disclaimer">{t.conceptNote}</p><button class="button button-dark" data-open-tool="scientific">{t.online}<Icon name="spark" size={18}/></button></>}</div></div><section class="product-specs"><h2>{t.specs}</h2><dl>{[[t.category,text.type],[t.display,text.display],[t.power,text.power],[t.aiLabel,product.ai?t.futureAi:t.noAi]].map(([label,value])=><div><dt>{label}</dt><dd>{value}</dd></div>)}</dl></section><section class="related-products"><div class="shop-section-heading"><h2>{locale==='en'?'A few more possibilities.':'Ещё немного возможностей.'}</h2><a class="text-link" href={`${home(locale)}#catalog`}>{t.catalog}<Icon name="arrow" size={16}/></a></div><div class="product-grid">{products.filter(item=>item.slug!==product.slug).map((item,index)=><ProductCard product={item} locale={locale} index={index}/>)}</div></section></div>
+</Layout>

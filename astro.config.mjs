@@ -12,4 +12,5 @@ const deploymentSite = process.env.NETLIFY === 'true' ? process.env.URL : undefi
 export default defineConfig({
   site: deploymentSite || process.env.PUBLIC_SITE_URL || 'https://example.com',
   output: 'static',
+  vite: { build: { assetsInlineLimit: 0 } },
 });

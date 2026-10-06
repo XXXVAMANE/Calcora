@@ -1,0 +1,12 @@
+---
+import Device from './Device.astro';
+import Icon from './Icon.astro';
+import { shopCopy, productPath, priceText, type Product } from '../data/shop';
+import type { Locale } from '../data/i18n';
+const { product, locale = 'en', index = 0 } = Astro.props as { product: Product; locale: Locale; index: number };
+const t = shopCopy[locale], text = product[locale];
+---
+<article class="product-card" data-product-card data-category={product.category}>
+  <a class:list={['product-stage', product.color]} href={productPath(locale,product.slug)} aria-label={`${product.brand} ${product.model}`}><span class="product-pill">{text.tag}</span><Device id={`card-${index}`} model={product.model} brand={product.brand} tone={product.color} concept={product.ai}/><span class="stage-arrow"><Icon name="diagonal" size={17}/></span></a>
+  <div class="product-copy"><span class="product-brand">{product.brand}</span><h3><a href={productPath(locale,product.slug)}>{product.model}</a></h3><p>{text.description}</p><div class="product-bottom"><div>{product.price !== null ? <><strong>{priceText(product.price,locale)}</strong><small>{t.samplePrice}</small></> : <span class="concept-price">{t.concept}</span>}</div>{product.price !== null ? <button class="product-add" data-add-product={product.slug} aria-label={`${t.add}: ${product.brand} ${product.model}`}><Icon name="plus" size={19}/></button> : <a class="product-add" href={productPath(locale,product.slug)} aria-label={t.details}><Icon name="diagonal" size={19}/></a>}</div></div>
+</article>
