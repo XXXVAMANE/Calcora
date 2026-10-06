@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from './Icon.astro';
+import { copy, home, type Locale, tools } from '../data/i18n';
+const { tool, locale = 'en' } = Astro.props as { tool: typeof tools[number]; locale: Locale };
+const t = copy[locale], text = tool[locale], root = home(locale);
+const production = Astro.site && Astro.site.hostname !== 'example.com';
+const url = production ? new URL(`${root}calculators/${tool.slug}/`, Astro.site).href : undefined;
+const schema = {'@context':'https://schema.org','@graph':[
+  {'@type':'WebApplication',name:`${text.name} — Calcora`,description:text.detail,applicationCategory:'UtilitiesApplication',operatingSystem:'Any',inLanguage:locale,...(url?{url}:{})},
+  ...(production?[{'@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Calcora',item:new URL(root,Astro.site).href},{'@type':'ListItem',position:2,name:text.name,item:url}]}]:[]),
+]};
+---
+<Layout locale={locale} title={`${text.name} — free online calculator | Calcora`.replace('free online calculator',locale==='ru'?'бесплатный онлайн-калькулятор':'free online calculator')} description={text.detail} schema={schema}>
+  <div class="container detail-page"><nav class="breadcrumbs" aria-label={locale==='en'?'Breadcrumbs':'Навигационная цепочка'}><a href={`${root}#catalog`}>{t.back}</a><span aria-hidden="true">/</span><span>{text.name}</span></nav><div class="detail-grid"><div class:list={['tool-art',tool.color]}><span class="tool-tag">{text.tag}</span><span class="tool-symbol" aria-hidden="true">{tool.symbol}</span><div class="tool-mini"><span class="mini-label">CALCORA / {tool.slug.toUpperCase()}</span><span class="mini-expression">{tool.slug==='percentage' && locale==='ru'?'25% от 480':tool.preview}</span><span class="mini-answer">{tool.answer}<Icon name="check" size={18}/></span></div><span class="tool-art-index">{t.demo}</span></div><div class="detail-copy"><div class="eyebrow"><span class="tiny-dot"></span>{t.included}</div><h1>{text.name}</h1><p>{text.description}</p><ul>{text.features.map(feature=><li><Icon name="check" size={16}/>{feature}</li>)}</ul><button class="button button-dark" data-open-tool={tool.slug}>{t.useTool}<Icon name="arrow"/></button></div></div><section class="detail-information"><h2>{t.toolFaq}</h2><p>{text.detail}</p>{tool.slug==='scientific' && <p style="margin-top:14px">{locale==='en'?'Supported: +, −, ×, ÷, ^, %, parentheses, sqrt, sin, cos, tan, log (base 10), ln, abs, floor, ceil, round, pi, and e. Trigonometry uses radians. Example: sqrt(144) + 2^3 = 20.':'Поддерживаются: +, −, ×, ÷, ^, %, скобки, sqrt, sin, cos, tan, log (по основанию 10), ln, abs, floor, ceil, round, pi и e. Тригонометрия работает в радианах. Пример: sqrt(144) + 2^3 = 20.'}</p>}</section></div>
+</Layout>

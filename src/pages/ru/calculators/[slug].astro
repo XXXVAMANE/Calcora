@@ -1,0 +1,7 @@
+---
+import ToolDetail from '../../../components/ToolDetail.astro';
+import { tools } from '../../../data/i18n';
+export function getStaticPaths() { return tools.map(tool=>({params:{slug:tool.slug},props:{tool}})); }
+const { tool } = Astro.props;
+---
+<ToolDetail tool={tool} locale="ru"/>

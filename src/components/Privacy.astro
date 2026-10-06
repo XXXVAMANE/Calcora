@@ -1,0 +1,7 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { copy, type Locale } from '../data/i18n';
+const { locale = 'en' } = Astro.props as {locale:Locale};
+const t = copy[locale];
+---
+<Layout locale={locale} title={`${t.privacy} — Calcora`} description={t.privacyDescription}><article class="container text-page"><div class="eyebrow">{t.privacy}</div><h1>{t.privacyTitle}</h1><p>{t.privacyDescription}</p>{[[t.privacyOne,t.privacyOneText],[t.privacyTwo,t.privacyTwoText],[t.privacyThree,t.privacyThreeText],[t.privacyFour,t.privacyFourText]].map(([title,text])=><section><h2>{title}</h2><p>{text}</p></section>)}</article></Layout>
