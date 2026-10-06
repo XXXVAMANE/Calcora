@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from './Icon.astro';
+import { copy, home, type Locale } from '../data/i18n';
+const { locale = 'en' } = Astro.props as {locale:Locale};
+const t = copy[locale];
+---
+<Layout locale={locale} title={`404 — Calcora`} noindex={true}><section class="not-found container"><span>404</span><h1>{t.notFound}</h1><p>{t.notFoundText}</p><a class="button button-dark" href={home(locale)}>{t.home}<Icon name="arrow"/></a></section></Layout>

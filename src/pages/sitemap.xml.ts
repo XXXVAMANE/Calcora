@@ -1,0 +1,8 @@
+import type { APIRoute } from 'astro';
+import { tools } from '../data/i18n';
+export const GET: APIRoute = ({ site }) => {
+  const paths = ['/', '/privacy/', ...tools.map(tool=>`/calculators/${tool.slug}/`)];
+  const production = site && site.hostname !== 'example.com';
+  const urls = production ? paths.flatMap(path=>[path,'/ru'+path]).map(path=>`<url><loc>${new URL(path,site).href.replace(/&/g,'&amp;')}</loc></url>`).join('') : '';
+  return new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>`,{headers:{'Content-Type':'application/xml; charset=utf-8'}});
+};
