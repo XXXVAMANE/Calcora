@@ -56,9 +56,32 @@ test('provider errors never expose upstream details or credentials', async () =>
     async () => { throw Error(env.OPENAI_API_KEY); },
     async () => Response.json({ output: [] }),
   ]) {
-    const response = await createExplainer({ env, fetchProvider })(request());
+    const logs = [];
+    const response = await createExplainer({ env, fetchProvider, logFailure: details => logs.push(details) })(request());
     assert.equal(response.status, 502);
     assert.doesNotMatch(await response.text(), /test-only-placeholder|sensitive/);
+    assert.doesNotMatch(JSON.stringify(logs), /test-only-placeholder|sensitive/);
+  }
+});
+
+test('diagnostics distinguish billing, authentication, model access and rate limits safely', async () => {
+  for (const [status, code, category] of [
+    [429, 'insufficient_quota', 'AI_BILLING_LIMIT'],
+    [401, 'invalid_api_key', 'AI_AUTH_FAILED'],
+    [404, 'model_not_found', 'AI_MODEL_UNAVAILABLE'],
+    [403, null, 'AI_ACCESS_DENIED'],
+    [429, 'rate_limit_exceeded', 'AI_RATE_LIMIT'],
+    [400, null, 'AI_REQUEST_REJECTED'],
+    [500, 'unknown-sensitive-code', 'AI_PROVIDER_ERROR'],
+  ]) {
+    const logs = [];
+    const response = await createExplainer({ env,
+      fetchProvider: async () => Response.json({ error: { code, message: 'secret details' } }, { status }),
+      logFailure: details => logs.push(details),
+    })(request());
+    assert.equal(response.status, 502);
+    assert.deepEqual(await response.json(), { error: category });
+    assert.deepEqual(logs, [{ category, upstreamStatus: status }]);
   }
 });
 
