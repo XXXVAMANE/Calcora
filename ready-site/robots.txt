@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-Sitemap: https://effervescent-zabaione-3454d0.netlify.app/sitemap.xml
+Sitemap: https://calcora-ai.netlify.app/sitemap.xml
