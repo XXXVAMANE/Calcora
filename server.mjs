@@ -13,10 +13,16 @@ const json=(res,status,data)=>{res.writeHead(status,{'Content-Type':'application
 
 export function createApp() {
   const explain = createExplainer();
+  let authOrigin = '';
+  try {
+    const authUrl = new URL(process.env.PUBLIC_SUPABASE_URL || '');
+    if(authUrl.protocol === 'https:' && authUrl.hostname.endsWith('.supabase.co')) authOrigin = ' ' + authUrl.origin;
+  } catch {}
+
   const server = createServer(async(req,res)=>{
     res.setHeader('X-Content-Type-Options','nosniff');
     res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');
-    res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
+    res.setHeader('Content-Security-Policy',`default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'${authOrigin}; frame-ancestors 'none'; base-uri 'self'; form-action 'self'`);
     let pathname;
     try {pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);} catch{return json(res,400,{error:'Invalid URL'});}
     if(pathname==='/api/explain'){
