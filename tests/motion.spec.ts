@@ -7,7 +7,7 @@ test('reduced motion leaves every product accessible without loading the 3D bund
  await expect(page.locator('.product-card').first()).toHaveCSS('opacity','1');
  await expect(page.locator('.hero-glow')).toHaveCSS('animation-name','none');
  expect(requests.some(url=>url.includes('/device-scene.'))).toBe(false);
- await page.locator('[data-shop-filter="scientific"]').click();await expect(page.locator('[data-product-card]:visible')).toHaveCount(1);
+ await expect(page.locator('[data-product-card]:visible')).toHaveCount(1);
  await page.locator('[data-product-card]:visible [data-add-product]').click();await expect(page.locator('[data-bag-count]')).toHaveText('1');
 });
 test('a browser without WebGL retains the illustration, filters and working bag',async({page})=>{
@@ -17,7 +17,7 @@ test('a browser without WebGL retains the illustration, filters and working bag'
  });
  await page.goto('/');await expect(page.locator('[data-immersive-scene]')).toHaveAttribute('data-webgl','fallback',{timeout:15000});
  await expect(page.locator('.hero-device>.device-svg')).toHaveCSS('opacity','1');
- await page.locator('[data-add-product="casio-fx-300es-plus"]').click();await page.locator('[data-open-bag]').click();await expect(page.locator('#bag-dialog')).toBeVisible();await expect(page.locator('[data-bag-total]')).toHaveText('$24.99');
+ await page.locator('[data-add-product="ai-camera-calculator"]').click();await page.locator('[data-open-bag]').click();await expect(page.locator('#bag-dialog')).toBeVisible();await expect(page.locator('[data-bag-total]')).toHaveText('$280.00');
 });
 test('the WebGL scene renders, supports keyboard rotation and recovers to an image after context loss',async({page})=>{
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));

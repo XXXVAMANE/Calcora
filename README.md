@@ -1,6 +1,6 @@
 # Numvori
 
-**A bilingual scientific calculator storefront with interactive 3D visuals, online tools, and a test checkout.**
+**A bilingual AI camera calculator preorder storefront with interactive 3D visuals, online tools, and a test checkout.**
 
 [Live website](https://numvori.com/) · [Buying guides](https://numvori.com/guides/) · [Development guide](docs/DEVELOPMENT.md)
 
@@ -8,7 +8,7 @@
 
 ## About the project
 
-I created Numvori as a personal portfolio project to explore how product design, interactive graphics, and web development come together in an online store. The idea started with online calculators and grew into a storefront for physical scientific calculators, with English and Russian content and a separate concept for a future AI device.
+I created Numvori as a personal portfolio project to explore how product design, interactive graphics, and web development come together in an online store. The idea started with online calculators and grew into a storefront for physical scientific calculators, with English and Russian content. The current storefront focuses on one supplier-made AI camera calculator, offered for preorder at $280 with planned delivery and pickup in Orlando.
 
 My focus was on the complete visitor experience: discovering a calculator, comparing models, reading a buying guide, managing a shopping bag, and trying a sandbox purchase. I also connected a custom domain, configured authentication, and submitted the site to Google Search Console.
 
@@ -17,7 +17,7 @@ My focus was on the complete visitor experience: discovering a calculator, compa
 ## Features
 
 - **Bilingual storefront:** English and Russian routes with a language switch that preserves the current page.
-- **Product discovery:** model filters, individual product pages, a scientific calculator collection, and three buying guides.
+- **Product discovery:** one AI camera calculator preorder page, reference pages for conventional models, and three buying guides.
 - **Interactive presentation:** a Three.js calculator scene with pointer and keyboard rotation, SVG fallbacks, and reduced-motion support.
 - **Shopping bag:** quantities, removal, totals, and persistence across page visits and languages.
 - **Stripe sandbox checkout:** hosted USD card payments with US test shipping addresses and server-verified results.
@@ -114,9 +114,9 @@ Windows commands and the mocked account test configuration are documented in the
 
 ## Project status
 
-Numvori is a **portfolio demonstration**, not a live retail business. Catalog prices are examples, product visuals are stylized illustrations, and Stripe accepts test keys only. Inventory, real taxes and shipping, webhook-based fulfillment, and account order history are not implemented.
+The current product is a **$280 preorder** for an AI calculator with a rear camera and built-in display. Numvori resells this supplier-made device; it is not the manufacturer. Delivery and pickup in Orlando are planned, with arrival date, fees and pickup location still to be confirmed. The published checkout remains a test preview: no real charge, stock reservation, or actual preorder is submitted. Real taxes/shipping, webhook fulfillment and order tracking are not implemented.
 
-Casio and Texas Instruments models are conventional calculators without embedded AI. **Numvori AI One** is a future hardware concept, unavailable for purchase. Its camera/model walkthrough uses prepared demonstration screens; the optional OpenAI website service is a separate integration.
+Casio and Texas Instruments pages remain as reference material for existing guides and are excluded from the sale catalog and sitemap. The AI device visuals and walkthrough are labelled illustrations, not supplier photographs or live device output. Camera resolution, supported AI providers, connectivity and power specifications await supplier verification. The optional OpenAI website service is separate from the hardware.
 
 ## Next steps
 
@@ -127,4 +127,4 @@ Casio and Texas Instruments models are conventional calculators without embedded
 
 ## По-русски
 
-Numvori — мой проект для портфолио: двуязычная витрина научных калькуляторов с 3D-презентацией, корзиной, учебными инструментами, аккаунтами и тестовой оплатой. Я развивал идею от онлайн-калькуляторов до магазина с отдельными страницами моделей и статьями, подключил собственный домен и настроил публикацию через GitHub и Netlify. Проект демонстрационный: реальные продажи и доставка пока не включены.
+Numvori — мой проект для портфолио: двуязычная витрина научных калькуляторов с 3D-презентацией, корзиной, учебными инструментами, аккаунтами и тестовой оплатой. Я развивал идею от онлайн-калькуляторов до магазина с отдельными страницами моделей и статьями, подключил собственный домен и настроил публикацию через GitHub и Netlify. Сейчас витрина предлагает один ИИ-калькулятор с камерой по предзаказу за $280, с планируемой доставкой и самовывозом в Орландо. Numvori перепродаёт устройство поставщика. Оплата пока тестовая и не оформляет реальный предзаказ.

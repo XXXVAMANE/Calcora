@@ -3,45 +3,43 @@ import { test, expect } from '@playwright/test';
 test('dark physical storefront has localized pages and a working language switch', async ({ page }) => {
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto('/');
-  await expect(page.locator('h1')).toContainText('Big ideas.');
-  await expect(page.locator('[data-product-card]')).toHaveCount(4);
+  await expect(page.locator('h1')).toContainText('Capture a question.');
+  await expect(page.locator('[data-product-card]')).toHaveCount(1);
   await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(16, 17, 20)');
   await page.locator('.language-switch').getByRole('link', { name: 'RU', exact: true }).click();
-  await expect(page.locator('h1')).toContainText('Большие идеи.');
-  await page.goto('/ru/products/casio-fx-300es-plus/');
-  await expect(page.locator('h1')).toHaveText('fx-300ES PLUS');
+  await expect(page.locator('h1')).toContainText('Сфотографируйте задачу.');
+  await page.goto('/ru/products/ai-camera-calculator/');
+  await expect(page.locator('h1')).toHaveText('ИИ-калькулятор с камерой');
   await page.locator('.language-switch').getByRole('link', { name: 'EN', exact: true }).click();
-  await expect(page).toHaveURL(/\/products\/casio-fx-300es-plus\/$/);
+  await expect(page).toHaveURL(/\/products\/ai-camera-calculator\/$/);
   expect(errors).toEqual([]);
 });
 
-test('physical product filters show scientific, classroom and concept models', async ({ page }) => {
+test('only the AI camera preorder is offered; legacy models remain reference-only', async ({ page }) => {
   await page.goto('/');
-  await page.locator('[data-shop-filter="classroom"]').click();
-  await expect(page.locator('[data-product-card]:visible')).toHaveCount(2);
-  await expect(page.locator('[data-shop-count]')).toHaveText('2 models');
-  await page.locator('[data-shop-filter="scientific"]').click();
-  await expect(page.locator('[data-product-card]:visible h3')).toHaveText('fx-991CW');
-  await page.locator('[data-shop-filter="ai"]').click();
-  await expect(page.locator('[data-product-card]:visible h3')).toHaveText('AI One');
-  await expect(page.locator('[data-product-card]:visible [data-add-product]')).toHaveCount(0);
-  await page.locator('[data-shop-filter="all"]').click();
-  await expect(page.locator('[data-product-card]:visible')).toHaveCount(4);
+  await expect(page.locator('[data-product-card]')).toHaveCount(1);
+  await expect(page.locator('[data-product-card]')).toContainText('$280.00');
+  await expect(page.locator('main')).toContainText('Orlando');
+  await expect(page.locator('[data-shop-filter]')).toHaveCount(0);
+  await page.goto('/products/casio-fx-300es-plus/');
+  await expect(page.locator('.physical-copy [data-add-product]')).toHaveCount(0);
+  await expect(page.locator('.physical-copy')).toContainText('not sold by Numvori');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
 });
 
 test('demo bag totals, quantities, removal and checkout remain honest across languages', async ({ page }) => {
   await page.goto('/');
-  await page.locator('[data-add-product="casio-fx-300es-plus"]').click();
+  await page.locator('[data-add-product="ai-camera-calculator"]').click();
   await expect(page.locator('[data-bag-count]')).toHaveText('1');
   await page.locator('[data-open-bag]').click();
   const bag = page.locator('#bag-dialog');
   await expect(bag).toBeVisible();
-  await expect(bag.locator('[data-bag-total]')).toHaveText('$24.99');
+  await expect(bag.locator('[data-bag-total]')).toHaveText('$280.00');
   await bag.getByRole('spinbutton').fill('2');
   await bag.getByRole('spinbutton').press('Tab');
-  await expect(bag.locator('[data-bag-total]')).toHaveText('$49.98');
-  await bag.getByRole('button', { name: 'Test checkout' }).click();
-  await expect(bag.locator('[data-checkout-notice]')).toContainText('no order has been placed');
+  await expect(bag.locator('[data-bag-total]')).toHaveText('$560.00');
+  await bag.getByRole('button', { name: 'Test preorder checkout' }).click();
+  await expect(bag.locator('[data-checkout-notice]')).toContainText('no preorder has been submitted');
   await page.keyboard.press('Escape');
   await expect(page.locator('[data-open-bag]')).toBeFocused();
   await page.reload();
@@ -50,7 +48,7 @@ test('demo bag totals, quantities, removal and checkout remain honest across lan
   await expect(page.locator('[data-bag-count]')).toHaveText('2');
   await page.locator('[data-open-bag]').click();
   await expect(bag.locator('.bag-item')).toHaveCount(1);
-  await bag.getByRole('button', { name: 'Удалить: fx-300ES PLUS' }).click();
+  await bag.getByRole('button', { name: 'Удалить: Camera Calculator' }).click();
   await expect(bag.locator('[data-bag-empty]')).toBeVisible();
   await expect(page.locator('[data-bag-count]')).toHaveText('0');
 });
@@ -58,14 +56,14 @@ test('demo bag totals, quantities, removal and checkout remain honest across lan
 test('invalid persisted bag data cannot add concepts or corrupt quantities', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('calcora-demo-bag', JSON.stringify([
     { slug: 'calcora-ai-one', quantity: 1 }, { slug: 'unknown', quantity: 1 },
-    { slug: 'ti-30x-iis', quantity: -5 }, { slug: 'casio-fx-300es-plus', quantity: 2 },
-    { slug: 'casio-fx-300es-plus', quantity: 3 },
+    { slug: 'ti-30x-iis', quantity: -5 }, { slug: 'ai-camera-calculator', quantity: 2 },
+    { slug: 'ai-camera-calculator', quantity: 3 },
   ])));
   await page.goto('/');
   await expect(page.locator('[data-bag-count]')).toHaveText('2');
   await page.locator('[data-open-bag]').click();
   await expect(page.locator('.bag-item')).toHaveCount(1);
-  await expect(page.locator('[data-bag-total]')).toHaveText('$49.98');
+  await expect(page.locator('[data-bag-total]')).toHaveText('$560.00');
 });
 
 test('online companion still calculates and reports missing AI honestly', async ({ page }) => {
@@ -86,7 +84,7 @@ test('online companion still calculates and reports missing AI honestly', async 
 });
 
 test('mobile navigation, product pages and translated layouts do not overflow', async ({ page }, info) => {
-  for (const path of ['/', '/ru/', '/products/casio-fx-300es-plus/', '/ru/products/calcora-ai-one/', '/account/']) {
+  for (const path of ['/', '/ru/', '/products/ai-camera-calculator/', '/ru/products/ai-camera-calculator/', '/account/']) {
     await page.goto(path);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
@@ -98,17 +96,19 @@ test('mobile navigation, product pages and translated layouts do not overflow', 
   }
 });
 
-test('physical product metadata omits fictional offers and concepts remain noindex', async ({ page, request }) => {
-  await page.goto('/products/casio-fx-300es-plus/');
+test('AI preorder is indexable without unconfigured offers or manufacturer claims', async ({ page, request }) => {
+  await page.goto('/products/ai-camera-calculator/');
   const schema = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent() || '{}');
   expect(schema['@type']).toBe('Product');
-  expect(schema.name).toBe('CASIO fx-300ES PLUS');
+  expect(schema.name).toBe('AI Camera Calculator');
+  expect(schema.brand).toBeUndefined();
   expect(schema.offers).toBeUndefined();
   expect(schema.aggregateRating).toBeUndefined();
-  await expect(page.locator('.product-specs')).toContainText('Built-in AINo');
-  await page.goto('/products/calcora-ai-one/');
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-  await expect(page.locator('.physical-copy [data-add-product]')).toHaveCount(0);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow, max-image-preview:large');
+  await expect(page.locator('.product-specs')).toContainText('Built-in AIYes');
+  const map = await (await request.get('/sitemap.xml')).text();
+  expect(map).toContain('https://numvori.com/products/ai-camera-calculator/');
+  expect(map).not.toContain('/products/casio-');
   expect((await request.get('/og-cover.png')).status()).toBe(200);
   expect((await request.get('/not-a-page/')).status()).toBe(404);
   expect((await request.get('/ru/not-a-page/')).status()).toBe(404);

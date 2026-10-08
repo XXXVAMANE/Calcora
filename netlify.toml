@@ -35,3 +35,15 @@
   to = "https://numvori.com/:splat"
   status = 301
   force = true
+
+[[redirects]]
+  from = "/products/calcora-ai-one/*"
+  to = "/products/ai-camera-calculator/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ru/products/calcora-ai-one/*"
+  to = "/ru/products/ai-camera-calculator/"
+  status = 301
+  force = true
