@@ -6,3 +6,11 @@
 @media(max-width:760px){.walkthrough-grid{grid-template-columns:1fr;gap:35px}.concept-lcd-frame{padding:12px}.concept-lcd{padding:16px;min-height:225px}.concept-walkthrough{margin-top:65px;margin-bottom:65px}.concept-steps p{padding-left:12px}}
 
 .editorial>.breadcrumbs>a:not(:last-child)::after{content:" / ";color:var(--muted);margin-left:12px}
+
+.preorder-grid { grid-template-columns: minmax(0, 420px); justify-content: center; }
+
+.rear-camera-illustration { position:absolute; bottom:30px; left:14px; width:110px; padding:8px; border-radius:16px; background:#16141de8; border:1px solid #4b3f61; z-index:2; }
+.rear-camera-illustration svg { display:block; width:100%; height:auto; transform:none !important; }
+.rear-camera-illustration small { display:block; color:#c3b5df; font-size:10px; line-height:1.5; text-align:center; }
+.detail-device-stage { position:relative; }
+@media(max-width:600px) { .rear-camera-illustration { width:85px; bottom:20px; left:8px; } }

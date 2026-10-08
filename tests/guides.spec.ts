@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('concept walkthrough switches screens and model choices without making AI requests', async ({ page }) => {
+test('device walkthrough uses prepared screens without promising model integrations or making AI requests', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   const requests: string[] = [];
   page.on('request', request => { if (request.url().includes('/api/')) requests.push(request.url()); });
@@ -9,9 +9,9 @@ test('concept walkthrough switches screens and model choices without making AI r
   await demo.locator('[data-concept-step="4"]').click();
   await expect(demo.locator('[data-concept-screen="4"]')).toBeVisible();
   await expect(demo.locator('[data-concept-screen="0"]')).toBeHidden();
-  await demo.getByLabel('Claude', { exact: true }).check();
-  await expect(demo.locator('[data-concept-screen="3"]')).toContainText('MODEL: Claude');
-  await expect(demo.locator('[data-concept-step="3"]')).toHaveAttribute('aria-pressed', 'true');
+  await demo.locator('[data-concept-step="3"]').click();
+  await expect(demo.locator('[data-concept-screen="3"]')).toContainText('CAMERA: REAR');
+  await expect(demo.locator('input[name="concept-model"]')).toHaveCount(0);
   expect(requests).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
 });

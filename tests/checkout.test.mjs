@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createCheckout } from '../lib/checkout.mjs';
 import handler, { config } from '../netlify/functions/checkout.mjs';
 const env = { STRIPE_SECRET_KEY: 'sk_test_fake', PUBLIC_SITE_URL: 'https://calcora-ai.netlify.app' };
-const data = { items: [{ slug: 'casio-fx-300es-plus', quantity: 2, price: 0 }], locale: 'en', attempt: '11111111-1111-4111-8111-111111111111' };
+const data = { items: [{ slug: 'ai-camera-calculator', quantity: 2, price: 0 }], locale: 'en', attempt: '11111111-1111-4111-8111-111111111111' };
 const req = (body=data, headers={}) => new Request(env.PUBLIC_SITE_URL+'/api/checkout', {method:'POST',headers:{'content-type':'application/json',origin:env.PUBLIC_SITE_URL,...headers},body:JSON.stringify(body)});
 test('checkout is callable on Netlify; missing keys, live keys and previews do not contact Stripe', async()=>{
  assert.equal(config.path,'/api/checkout'); assert.equal(typeof handler,'function');
@@ -15,7 +15,8 @@ test('Stripe checkout uses server prices, USD, US shipping and localized fixed r
  for(const locale of ['en','ru']) {
   const checkout=createCheckout({env,fetchProvider:async(url,options)=>{
    assert.equal(url,'https://api.stripe.com/v1/checkout/sessions');assert.equal(options.headers.Authorization,'Bearer sk_test_fake');
-   const form=new URLSearchParams(options.body);assert.equal(form.get('line_items[0][price_data][unit_amount]'),'2499');
+   const form=new URLSearchParams(options.body);assert.equal(form.get('line_items[0][price_data][unit_amount]'),'28000');
+   assert.equal(form.get('metadata[order_type]'),'preorder');assert.equal(form.get('line_items[0][price_data][product_data][name]'),'AI Camera Calculator — Preorder');
    assert.equal(form.get('line_items[0][quantity]'),'2');assert.equal(form.get('line_items[0][price_data][currency]'),'usd');
    assert.equal(form.get('shipping_address_collection[allowed_countries][0]'),'US');assert.equal(form.get('payment_method_types[0]'),'card');
    assert.equal(form.get('shipping_options[0][shipping_rate_data][fixed_amount][currency]'),'usd');
@@ -28,7 +29,7 @@ test('Stripe checkout uses server prices, USD, US shipping and localized fixed r
 });
 test('invalid carts, duplicates, concepts, quantities, origins and oversized requests are rejected',async()=>{
  const checkout=createCheckout({env,fetchProvider:()=>{throw Error('Unexpected call')}});
- for(const body of [null,{...data,items:[]},{...data,items:[{slug:'calcora-ai-one',quantity:1}]},{...data,items:[{slug:'__proto__',quantity:1}]},{...data,items:[{slug:['casio-fx-300es-plus'],quantity:1}]},...[-1,0,21,1.5,'2'].map(quantity=>({...data,items:[{slug:'casio-fx-300es-plus',quantity}]})),{...data,items:[...data.items,...data.items]},{...data,attempt:'bad'},{...data,locale:'xx'}]) assert.equal((await checkout(req(body))).status,400);
+ for(const body of [null,{...data,items:[]},{...data,items:[{slug:'calcora-ai-one',quantity:1}]},{...data,items:[{slug:'casio-fx-300es-plus',quantity:1}]},{...data,items:[{slug:'casio-fx-991cw',quantity:1}]},{...data,items:[{slug:'ti-30x-iis',quantity:1}]},{...data,items:[{slug:'__proto__',quantity:1}]},{...data,items:[{slug:['ai-camera-calculator'],quantity:1}]},...[-1,0,21,1.5,'2'].map(quantity=>({...data,items:[{slug:'ai-camera-calculator',quantity}]})),{...data,items:[...data.items,...data.items]},{...data,attempt:'bad'},{...data,locale:'xx'}]) assert.equal((await checkout(req(body))).status,400);
  assert.equal((await checkout(req(data,{origin:'https://attacker.invalid'}))).status,403);
  assert.equal((await checkout(req({...data,padding:'x'.repeat(5000)}))).status,413);
  assert.equal((await checkout(new Request(env.PUBLIC_SITE_URL+'/api/checkout',{method:'POST',headers:{'content-type':'application/json'},body:'{bad'}))).status,400);

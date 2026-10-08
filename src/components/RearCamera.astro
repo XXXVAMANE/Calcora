@@ -1,0 +1,4 @@
+---
+const {locale='en'}=Astro.props;
+---
+<div class="rear-camera-illustration"><svg viewBox="0 0 150 280" role="img" aria-label={locale==='en'?'Illustration of a camera on the back of the calculator':'Иллюстрация камеры на задней стороне калькулятора'}><rect x="12" y="8" width="126" height="264" rx="24" fill="#1b1d25" stroke="#777582" stroke-width="2"/><path d="M27 37h96M27 239h96" stroke="#343641"/><circle cx="75" cy="176" r="17" fill="#101114" stroke="#b7a2f6" stroke-width="3"/><circle cx="75" cy="176" r="9" fill="#242735"/><circle cx="72" cy="173" r="3" fill="#7b749b"/>{[[29,25],[121,25],[29,255],[121,255]].map(([cx,cy])=><circle cx={cx} cy={cy} r="2" fill="#777582"/>)}</svg><small>{locale==='en'?'Rear camera · illustration':'Камера сзади · иллюстрация'}</small></div>
