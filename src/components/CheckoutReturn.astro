@@ -6,7 +6,7 @@ const en = locale === 'en';
 const title = cancelled ? (en ? 'Checkout cancelled.' : 'Оплата отменена.') : (en ? 'Checking your test payment.' : 'Проверяем тестовую оплату.');
 const note = cancelled ? (en ? 'Your bag is saved. No payment was completed.' : 'Корзина сохранена. Оплата не завершена.') : (en ? 'We verify the payment with Stripe before confirming it.' : 'Проверяем статус в Stripe перед подтверждением.');
 ---
-<Layout locale={locale} title={`${title} — Calcora`} noindex={true}>
+<Layout locale={locale} title={`${title} — Numvori`} noindex={true}>
   <section class="container checkout-return" data-checkout-return data-cancelled={cancelled}>
     <span class="eyebrow"><span class="tiny-dot"></span>{en ? 'TEST CHECKOUT · USD · UNITED STATES' : 'ТЕСТОВАЯ ОПЛАТА · USD · США'}</span>
     <h1 data-payment-title>{title}</h1><p role="status" aria-live="polite" data-payment-status>{note}</p>

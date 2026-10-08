@@ -3,11 +3,11 @@
 - 🌱 I’m currently learning program in visual studio.
 - 💞️ I’m looking to learn about AI and also AI modeling.
 
-# Calcora
+# Numvori
 
 A bilingual demonstration store for physical scientific calculators. The storefront uses a dark charcoal/lavender design, a four-model collection, dedicated product pages, filters and a browser-persisted shopping bag. English is the default; the top-right EN/RU switch preserves the page. Astro, TypeScript, and locally hosted fonts.
 
-The three conventional models are Casio fx-300ES PLUS, Casio fx-991CW and TI-30X IIS. Their prices are examples and their visuals are original stylized illustrations, not product photographs. Confirm exact regional editions, manufacturer specifications, photography rights, stock and final prices before selling. These Casio/TI devices do not contain AI. Calcora AI One is an unavailable future hardware concept; it cannot be added to the bag.
+The three conventional models are Casio fx-300ES PLUS, Casio fx-991CW and TI-30X IIS. Their prices are examples and their visuals are original stylized illustrations, not product photographs. Confirm exact regional editions, manufacturer specifications, photography rights, stock and final prices before selling. These Casio/TI devices do not contain AI. Numvori AI One is an unavailable future hardware concept; it cannot be added to the bag.
 
 The bag supports quantities (1–20 per model), removal, totals and persistence across both languages. Optional Stripe sandbox checkout accepts USD and US shipping addresses on Stripe’s hosted page. Test transactions are recorded in Stripe; no real charges or shipments occur. Card details never pass through this application. Product markup omits demo offers, reviews and inventory claims; the AI concept and account pages are excluded from indexing. Existing online calculator pages and the AI explanation endpoint remain available as an optional website companion, distinct from embedded hardware AI.
 
@@ -43,7 +43,7 @@ Create the key in an OpenAI API project with billing enabled; a ChatGPT subscrip
 
 Pages `/account/` and `/ru/account/` support sign-up, email confirmation, password sign-in, sign-out and password recovery. Account pages are excluded from indexing and the sitemap. AI usage is still public. Store accounts do not yet have per-user AI limits, orders, saved calculations or payments.
 
-In Supabase, enable the Email provider and email confirmation. Set Site URL to `https://calcora-ai.netlify.app` and add the exact redirect URL `https://calcora-ai.netlify.app/account/` (both languages use this callback). For real users, configure your own SMTP under Authentication → Emails: the default Supabase email service restricts recipient addresses to your project team and has low sending limits. Keep confirmation enabled.
+In Supabase, enable the Email provider and email confirmation. Set Site URL to `https://numvori.com` and add the exact redirect URL `https://numvori.com/account/` (both languages use this callback). For real users, configure your own SMTP under Authentication → Emails: the default Supabase email service restricts recipient addresses to your project team and has low sending limits. Keep confirmation enabled.
 
 In Netlify, add these **public, browser-safe** variables available during production builds:
 
@@ -65,7 +65,7 @@ Rebuild with your own production variables before publishing; the fixture values
 
 ## SEO and publication
 
-For automatic Netlify deploys, connect this repository to the existing Netlify project and select the `main` branch. `netlify.toml` sets the build command, output folder, and Node.js version. On Netlify, SEO URLs use the primary production domain supplied by Netlify (`URL`), so a project rename or primary-domain change is reflected after the next production build. Deploy previews and branch deploys are excluded from indexing.
+For automatic Netlify deploys, connect this repository to the existing Netlify project and select the `main` branch. `netlify.toml` sets the build command, output folder, and Node.js version. Production SEO uses `https://numvori.com` from the shared `lib/site.mjs` configuration; local builds use `PUBLIC_SITE_URL` and preview builds remain noindex. Deploy previews and branch deploys are excluded from indexing.
 
 Keep the Google Search Console verification HTML file in `public/` before switching from manual uploads to repository builds. The verification file uploaded by the site owner is tracked there and preserved by builds. Downloaded verification files can be copied into `public/` unchanged, then committed.
 
@@ -95,7 +95,7 @@ Store copy and products: `src/data/shop.ts`. Storefront: `src/components/Landing
 
 ## По-русски
 
-Основной язык — английский. Русская версия находится в `/ru/`, переключатель EN/RU расположен справа вверху и сохраняет текущую страницу. Четыре калькулятора работают локально; ИИ-объяснения требуют серверного ключа `OPENAI_API_KEY`. Для индексации укажите настоящий домен в `PUBLIC_SITE_URL` и пересоберите сайт. Каталог физических устройств и цены демонстрационные, оплата и доставка не подключены. Обычные Casio и TI не имеют встроенного ИИ; Calcora AI One — будущий аппаратный концепт.
+Основной язык — английский. Русская версия находится в `/ru/`, переключатель EN/RU расположен справа вверху и сохраняет текущую страницу. Четыре калькулятора работают локально; ИИ-объяснения требуют серверного ключа `OPENAI_API_KEY`. Для индексации укажите настоящий домен в `PUBLIC_SITE_URL` и пересоберите сайт. Каталог физических устройств и цены демонстрационные, оплата и доставка не подключены. Обычные Casio и TI не имеют встроенного ИИ; Numvori AI One — будущий аппаратный концепт.
 
 ## USD checkout for the United States (Stripe sandbox)
 
@@ -125,3 +125,10 @@ The English and Russian store now links to `/scientific-calculators/` and `/guid
 The AI One showcase and five-step LCD walkthrough illustrate proposed hardware only. OpenAI/Gemini/Claude radio controls select prepared interface screens; they make no API requests. Actual online explanations continue using the existing OpenAI service. Camera hardware, other providers, pricing and release dates are unconfirmed. No manufacturer photos, endorsements, customer ratings, inventory or live Offers are fabricated. Store checkout remains Stripe test mode. Real seller identity, shipping/returns terms and actual inventory must be supplied before a commercial launch or merchant feeds.
 
 Validation: `npm run check`, `npm test`, production-domain `npm run build`, and Playwright store/checkout/guide tests. After merging, Netlify builds the updated sitemap automatically; inspect Pages/Performance in Search Console as Google processes it rather than repeatedly submitting indexing requests.
+
+
+### Numvori domain migration
+
+The production site origin is `https://numvori.com`, shared by the static build and Stripe checkout through `lib/site.mjs`. It is also documented as `PUBLIC_SITE_URL` in the production context of `netlify.toml`; Functions do not rely on TOML variables being available at runtime. A stale Netlify `URL` cannot send production checkout returns to the old domain. The legacy Netlify HTTPS and HTTP host redirects permanently to the matching path at the new origin; these forced redirects are host-specific and do not redirect deploy previews. Product/article paths, Supabase configuration and browser storage identifiers are retained. Legacy `calcora-demo` Stripe metadata and idempotency prefixes intentionally remain compatible with existing test sessions.
+
+After the single merged production deployment, check the root, a nested Russian page, old-host redirects, canonical/hreflang URLs, robots and the 28-entry sitemap on the real domain. Supabase Site URL must be `https://numvori.com` with `https://numvori.com/account/` allowed; keep the old callback temporarily for old emails. Sessions and browser carts do not transfer automatically between domains. The registrar's DNS remains unchanged: apex A `75.2.60.5`, www CNAME `calcora-ai.netlify.app` (do not rename the Netlify project). Add the new property in Search Console and submit the new sitemap. Keep the old property; indexing/rankings take time to migrate. The Netlify edge redirect itself must be validated after deployment.

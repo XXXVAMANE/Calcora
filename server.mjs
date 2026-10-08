@@ -57,4 +57,4 @@ export function createApp() {
   server.requestTimeout=15000;
   return server;
 }
-if(process.argv[1] && resolve(process.argv[1])===fileURLToPath(import.meta.url))createApp().listen(Number(process.env.PORT||4321),'0.0.0.0',()=>console.log(`Calcora server started on port ${process.env.PORT||4321}`));
+if(process.argv[1] && resolve(process.argv[1])===fileURLToPath(import.meta.url))createApp().listen(Number(process.env.PORT||4321),'0.0.0.0',()=>console.log(`Numvori server started on port ${process.env.PORT||4321}`));

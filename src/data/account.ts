@@ -1,7 +1,7 @@
 export const accountCopy = {
   en: {
-    title: 'Your space to think.', description: 'Sign in to your Calcora account or create one with your email.',
-    eyebrow: 'YOUR CALCORA ACCOUNT', intro: 'A little space for your next big idea. Start with a secure email account.',
+    title: 'Your space to think.', description: 'Sign in to your Numvori account or create one with your email.',
+    eyebrow: 'YOUR NUMVORI ACCOUNT', intro: 'A little space for your next big idea. Start with a secure email account.',
     signin: 'Sign in', signup: 'Create account', reset: 'Reset password', update: 'Set new password',
     email: 'Email address', password: 'Password', confirmation: 'Confirm password', forgot: 'Forgot password?',
     hint: 'Use at least 8 characters. Confirm your email before your first sign-in.',
@@ -19,8 +19,8 @@ export const accountCopy = {
     privacy: 'Your email and sign-in session are managed by Supabase. Your calculations stay in your browser unless you request an AI explanation.',
   },
   ru: {
-    title: 'Ваше пространство для идей.', description: 'Войдите в аккаунт Calcora или зарегистрируйтесь по электронной почте.',
-    eyebrow: 'ВАШ АККАУНТ CALCORA', intro: 'Место для вашей следующей большой идеи. Начните с аккаунта по электронной почте.',
+    title: 'Ваше пространство для идей.', description: 'Войдите в аккаунт Numvori или зарегистрируйтесь по электронной почте.',
+    eyebrow: 'ВАШ АККАУНТ NUMVORI', intro: 'Место для вашей следующей большой идеи. Начните с аккаунта по электронной почте.',
     signin: 'Войти', signup: 'Создать аккаунт', reset: 'Сбросить пароль', update: 'Установить новый пароль',
     email: 'Электронная почта', password: 'Пароль', confirmation: 'Повторите пароль', forgot: 'Забыли пароль?',
     hint: 'Используйте минимум 8 символов. Подтвердите почту перед первым входом.',

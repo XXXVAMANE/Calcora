@@ -47,3 +47,19 @@ test('foreign/live sessions, unexpected redirects and provider failures are neve
  const fail=createCheckout({env,fetchProvider:async()=>{throw Error('sk_test_fake sensitive upstream details')}});const r=await fail(req());assert.equal(r.status,502);assert.equal((await r.text()).includes('sensitive'),false);
  assert.equal((await fail(new Request(env.PUBLIC_SITE_URL+'/api/checkout?session_id=cs_live_foo'))).status,400);
 });
+
+test('production payment returns use the custom domain even without TOML variables in the function runtime', async()=>{
+ const customEnv={...env,NETLIFY:'true',CONTEXT:'production',URL:'https://calcora-ai.netlify.app',PUBLIC_SITE_URL:undefined};
+ let calls=0;
+ const checkout=createCheckout({env:customEnv,fetchProvider:async(_url,options)=>{
+  calls++;
+  const form=new URLSearchParams(options.body);
+  assert.equal(form.get('success_url'),'https://numvori.com/checkout/success/?session_id={CHECKOUT_SESSION_ID}');
+  assert.equal(form.get('cancel_url'),'https://numvori.com/checkout/cancel/');
+  return Response.json({livemode:false,id:'cs_test_domain',url:'https://checkout.stripe.com/c/pay/cs_test_domain'});
+ }});
+ const post=origin=>new Request('https://numvori.com/api/checkout',{method:'POST',headers:{'content-type':'application/json',origin},body:JSON.stringify(data)});
+ assert.equal((await checkout(post('https://numvori.com'))).status,200);
+ assert.equal((await checkout(post('https://calcora-ai.netlify.app'))).status,403);
+ assert.equal(calls,1);
+});
