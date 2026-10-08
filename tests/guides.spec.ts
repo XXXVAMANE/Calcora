@@ -19,7 +19,7 @@ test('concept walkthrough switches screens and model choices without making AI r
 test('buying guides connect to actual product pages and preserve language and SEO', async ({ page }) => {
   await page.goto('/guides/casio-fx-300es-plus-vs-fx-991cw/');
   await expect(page.locator('h1')).toContainText('fx-300ES PLUS vs fx-991CW');
-  await expect(page.locator('head link[rel="canonical"]')).toHaveAttribute('href', 'https://calcora-ai.netlify.app/guides/casio-fx-300es-plus-vs-fx-991cw/');
+  await expect(page.locator('head link[rel="canonical"]')).toHaveAttribute('href', 'https://numvori.com/guides/casio-fx-300es-plus-vs-fx-991cw/');
   const schema = await page.locator('script[type="application/ld+json"]').textContent();
   const graph = JSON.parse(schema!)['@graph'];
   expect(graph.map((node: { '@type': string }) => node['@type'])).toEqual(['Article', 'BreadcrumbList']);

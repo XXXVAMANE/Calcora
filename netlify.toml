@@ -19,3 +19,19 @@
   for = "/robots.txt"
   [headers.values]
     Content-Type = "text/plain; charset=utf-8"
+
+[context.production.environment]
+  PUBLIC_SITE_URL = "https://numvori.com"
+
+# Preserve paths when migrating the old host; preview domains are unaffected.
+[[redirects]]
+  from = "https://calcora-ai.netlify.app/*"
+  to = "https://numvori.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://calcora-ai.netlify.app/*"
+  to = "https://numvori.com/:splat"
+  status = 301
+  force = true

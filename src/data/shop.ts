@@ -3,7 +3,7 @@ import catalog from '../../lib/catalog.json';
 
 export const shopCopy = {
   en: {
-    title: 'Calcora — Scientific Calculators & Thoughtful Tools', description: 'Explore physical scientific calculators from Casio and Texas Instruments, plus a future AI calculator concept. A bilingual demo store.',
+    title: 'Numvori — Scientific Calculators & Thoughtful Tools', description: 'Explore physical scientific calculators from Casio and Texas Instruments, plus a future AI calculator concept. A bilingual demo store.',
     announcement: 'A new perspective on everyday calculation.', announcementLink: 'Explore the collection',
     catalog: 'Shop calculators', about: 'Our approach', help: 'Questions', account: 'Account', bag: 'Your bag',
     eyebrow: 'PRECISION IN YOUR HANDS', heroFirst: 'Big ideas.', heroSecond: 'Better tools.',
@@ -19,12 +19,12 @@ export const shopCopy = {
     approachNote: 'Our collection starts with familiar scientific calculators. Our next idea explores what a dedicated AI assistant could bring to a physical device.',
     approachCta: 'Explore the collection',
     conceptEyebrow: 'A LOOK AHEAD', conceptTitle: 'What if your calculator\ncould explain why?',
-    conceptText: 'Meet Calcora AI One: a design concept for a physical calculator with an embedded assistant. Ask a question. Explore the reasoning. Keep learning.',
+    conceptText: 'Meet Numvori AI One: a design concept for a physical calculator with an embedded assistant. Ask a question. Explore the reasoning. Keep learning.',
     conceptNote: 'A future hardware concept, not an available product. Casio and TI models in this collection do not have built-in AI.', conceptCta: 'Explore the concept', online: 'Try our online AI companion',
     faqTitle: 'A little clarity.', faqIntro: 'Before you find your next calculator.',
     faq: [
       ['Are these physical calculators?', 'Yes. The collection features physical calculator models. This website is a store demo: stock, prices, delivery and checkout have not been configured for real sales.'],
-      ['Do the Casio calculators have built-in AI?', 'No. The listed Casio and Texas Instruments models are conventional scientific calculators. Calcora AI One is a separate future hardware concept. The optional AI companion on this website explains calculations online.'],
+      ['Do the Casio calculators have built-in AI?', 'No. The listed Casio and Texas Instruments models are conventional scientific calculators. Numvori AI One is a separate future hardware concept. The optional AI companion on this website explains calculations online.'],
       ['Can I place an order today?', 'You can try USD checkout with a US address after Stripe test mode is configured. Test transactions are recorded in Stripe; no real money is charged or device shipped. Real sales, shipping and taxes are not enabled.'],
       ['Which calculator can I use in an exam?', 'Exam rules depend on the institution, country and exam. Check the exact model with your teacher or exam provider before buying. We do not claim universal exam approval.'],
     ],
@@ -37,7 +37,7 @@ export const shopCopy = {
     accountNote: 'Store accounts are available. Orders and payments are not connected yet.',
   },
   ru: {
-    title: 'Calcora — Магазин научных калькуляторов', description: 'Физические научные калькуляторы Casio и Texas Instruments и концепт будущего устройства с ИИ. Демонстрационный магазин на двух языках.',
+    title: 'Numvori — Магазин научных калькуляторов', description: 'Физические научные калькуляторы Casio и Texas Instruments и концепт будущего устройства с ИИ. Демонстрационный магазин на двух языках.',
     announcement: 'Новый взгляд на привычные вычисления.', announcementLink: 'Посмотреть коллекцию',
     catalog: 'Калькуляторы', about: 'Наш подход', help: 'Вопросы', account: 'Аккаунт', bag: 'Ваша корзина',
     eyebrow: 'ТОЧНОСТЬ В ВАШИХ РУКАХ', heroFirst: 'Большие идеи.', heroSecond: 'Надёжные инструменты.',
@@ -53,12 +53,12 @@ export const shopCopy = {
     approachNote: 'Наша коллекция начинается с привычных научных калькуляторов. Следующая идея — физическое устройство со встроенным ИИ-помощником.',
     approachCta: 'Посмотреть коллекцию',
     conceptEyebrow: 'ВЗГЛЯД В БУДУЩЕЕ', conceptTitle: 'А если калькулятор\nобъяснит почему?',
-    conceptText: 'Calcora AI One — дизайн-концепт физического калькулятора со встроенным помощником. Задавайте вопросы, разбирайтесь в решении и узнавайте больше.',
+    conceptText: 'Numvori AI One — дизайн-концепт физического калькулятора со встроенным помощником. Задавайте вопросы, разбирайтесь в решении и узнавайте больше.',
     conceptNote: 'Будущий аппаратный концепт, а не готовый товар. Представленные модели Casio и TI не имеют встроенного ИИ.', conceptCta: 'Посмотреть концепт', online: 'Попробовать ИИ-помощника на сайте',
     faqTitle: 'Всё немного яснее.', faqIntro: 'Ответы перед выбором калькулятора.',
     faq: [
       ['Это физические калькуляторы?', 'Да, в коллекции представлены модели физических устройств. Пока это демонстрационный магазин: наличие, цены, доставка и оплата для реальных продаж не подключены.'],
-      ['В калькуляторах Casio есть встроенный ИИ?', 'Нет. Представленные модели Casio и Texas Instruments — обычные научные калькуляторы. Calcora AI One — отдельный концепт будущего устройства. ИИ-помощник на сайте объясняет вычисления онлайн.'],
+      ['В калькуляторах Casio есть встроенный ИИ?', 'Нет. Представленные модели Casio и Texas Instruments — обычные научные калькуляторы. Numvori AI One — отдельный концепт будущего устройства. ИИ-помощник на сайте объясняет вычисления онлайн.'],
       ['Можно оформить заказ сейчас?', 'После настройки Stripe можно попробовать тестовую оплату в USD с адресом в США. Тестовая транзакция сохраняется в Stripe. Настоящие деньги не списываются, устройство не отправляется. Реальные продажи, доставка и налоги не подключены.'],
       ['Какой калькулятор разрешён на экзамене?', 'Правила зависят от учебного заведения, страны и экзамена. Уточните допуск конкретной модели у преподавателя или организатора до покупки. Универсального разрешения на все экзамены нет.'],
     ],
@@ -82,7 +82,7 @@ export const products = [
   { slug: 'ti-30x-iis', brand: 'TEXAS INSTRUMENTS', model: 'TI-30X IIS', category: 'classroom', price: catalog['ti-30x-iis'].unitAmount / 100, color: 'peach', ai: false,
     en: { tag: 'Keep it simple', description: 'Texas Instruments TI-30X IIS scientific calculator with a two-line display, fraction and statistics functions, and solar power with battery backup.', features: ['Two-line display', 'Fractions & statistics', 'Solar power with battery backup'], power: 'Solar + battery', display: 'Two-line display', type: 'Scientific calculator' },
     ru: { tag: 'Всё просто', description: 'Научный калькулятор Texas Instruments TI-30X IIS с двухстрочным экраном, дробями и статистикой. Солнечное питание с резервной батареей.', features: ['Двухстрочный экран', 'Дроби и статистика', 'Солнечное питание и батарея'], power: 'Солнечное + батарея', display: 'Двухстрочный экран', type: 'Научный калькулятор' } },
-  { slug: 'calcora-ai-one', brand: 'CALCORA', model: 'AI One', category: 'ai', price: null, color: 'ai', ai: true,
+  { slug: 'calcora-ai-one', brand: 'NUMVORI', model: 'AI One', category: 'ai', price: null, color: 'ai', ai: true,
     en: { tag: 'An idea for tomorrow', description: 'A future physical calculator with an embedded AI assistant. A concept, ready to explore.', features: ['Proposed embedded AI assistant', 'Proposed step-by-step explanations', 'Hardware concept, not yet manufactured'], power: 'To be defined', display: 'Concept display', type: 'AI hardware concept' },
     ru: { tag: 'Идея завтрашнего дня', description: 'Будущий физический калькулятор со встроенным ИИ. Пока концепт, с которым можно познакомиться.', features: ['Планируемый встроенный ИИ', 'Планируемые пошаговые объяснения', 'Аппаратный концепт, ещё не производится'], power: 'Будет определено', display: 'Концепт экрана', type: 'Аппаратный ИИ-концепт' } },
 ] as const;

@@ -11,7 +11,7 @@ if (key && !key.startsWith('sb_publishable_')) {
   throw new Error('PUBLIC_SUPABASE_PUBLISHABLE_KEY must be a Supabase publishable key, never a secret or service-role key.');
 }
 ---
-<Layout locale={locale} title={`${t.signin} — Calcora`} description={t.description} noindex={true}>
+<Layout locale={locale} title={`${t.signin} — Numvori`} description={t.description} noindex={true}>
   <section class="container account-page">
     <div class="account-intro"><span class="eyebrow"><span class="tiny-dot"></span>{t.eyebrow}</span><h1>{t.title}</h1><p>{t.intro}</p><div class="account-art" aria-hidden="true">✳ <em>aha.</em></div><p class="account-privacy">{t.privacy} <a href={`${home(locale)}privacy/`}>{locale === 'en' ? 'Privacy policy' : 'Политика конфиденциальности'} ↗</a></p></div>
     <div class="account-card" data-account data-url={url} data-key={key}>
