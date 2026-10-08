@@ -116,3 +116,12 @@ The homepage progressively loads a local Three.js scene when the hero is near th
 Touch interaction preserves vertical scrolling. Arrow keys rotate the focused scene and Escape resets it. Browsers without WebGL, lost contexts and failed imports retain the original SVG. With reduced motion enabled at load, the 3D bundle is not fetched and content remains visible. Animation stops outside the viewport or in a hidden tab, and pauses behind dialogs. Geometry instancing, a shared key atlas, a small environment map, capped resolution and adaptive frame rates reduce rendering cost. Cart, accounts and Stripe sandbox checkout are unchanged.
 
 `tests/motion.spec.ts` exercises reduced motion, WebGL-unavailable behavior, a rendered scene, keyboard controls and context-loss fallback alongside the existing checkout/account suite.
+
+
+### Buying guides and concept demonstration
+
+The English and Russian store now links to `/scientific-calculators/` and `/guides/`. Three original editorial guides cover calculator selection, the fx-300ES PLUS vs fx-991CW comparison and AI vs conventional calculators. Articles expose their text in static HTML, use Article/BreadcrumbList JSON-LD and reciprocal language alternates. Product pages link back to relevant guides. The production sitemap contains 28 eligible URLs; account, checkout receipts and the unmanufactured AI One concept remain excluded and noindex. Google verification is preserved. A successful sitemap fetch does not guarantee indexing or rankings.
+
+The AI One showcase and five-step LCD walkthrough illustrate proposed hardware only. OpenAI/Gemini/Claude radio controls select prepared interface screens; they make no API requests. Actual online explanations continue using the existing OpenAI service. Camera hardware, other providers, pricing and release dates are unconfirmed. No manufacturer photos, endorsements, customer ratings, inventory or live Offers are fabricated. Store checkout remains Stripe test mode. Real seller identity, shipping/returns terms and actual inventory must be supplied before a commercial launch or merchant feeds.
+
+Validation: `npm run check`, `npm test`, production-domain `npm run build`, and Playwright store/checkout/guide tests. After merging, Netlify builds the updated sitemap automatically; inspect Pages/Performance in Search Console as Google processes it rather than repeatedly submitting indexing requests.
