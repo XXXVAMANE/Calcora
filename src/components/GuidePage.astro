@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from './ProductCard.astro';
+import { guides, guidePath, type Guide } from '../data/guides';
+import { products } from '../data/shop';
+import { home, type Locale } from '../data/i18n';
+const { guide, locale = 'en' } = Astro.props as {guide?:Guide;locale:Locale};
+const title=guide?guide[locale].title:locale==='en'?'Calculator buying guides & comparisons':'Как выбрать калькулятор: руководства и сравнения';
+const description=guide?guide[locale].description:locale==='en'?'Compare Casio and TI scientific calculators, choose a model for school and understand what an AI calculator can offer.':'Сравнения научных калькуляторов Casio и TI, выбор для учёбы и отличие ИИ-помощника от обычного устройства.';
+const absolute=(path:string)=>new URL(path,Astro.site).href;
+const crumbs=[{name:'Calcora',path:home(locale)},{name:locale==='en'?'Buying guides':'Руководства',path:guidePath(locale)},...(guide?[{name:title,path:guidePath(locale,guide.slug)}]:[])];
+const schema={'@context':'https://schema.org','@graph':[
+ {'@type':guide?'Article':'CollectionPage',headline:title,name:title,description,inLanguage:locale,...(guide?{author:{'@type':'Organization',name:'Calcora'},mainEntityOfPage:absolute(guidePath(locale,guide.slug))}:{url:absolute(guidePath(locale))})},
+ {'@type':'BreadcrumbList',itemListElement:crumbs.map((item,index)=>({'@type':'ListItem',position:index+1,name:item.name,item:absolute(item.path)}))}]};
+---
+<Layout locale={locale} title={`${title} | Calcora`} description={description} schema={schema}>
+ <div class="container editorial"><nav class="breadcrumbs" aria-label={locale==='en'?'Breadcrumb':'Навигация'}>{crumbs.map(item=><a href={item.path}>{item.name}</a>)}</nav>
+ <header class="editorial-heading"><div class="eyebrow">CALCORA / {locale==='en'?'BUYING GUIDES':'РУКОВОДСТВА'}</div><h1>{title}</h1><p>{guide?guide[locale].intro:description}</p></header>
+ {guide?<><div class="article-layout"><aside class="article-contents"><strong>{locale==='en'?'In this guide':'В этом руководстве'}</strong>{guide[locale].sections.map((section,index)=><a href={`#section-${index}`}>{section.heading}</a>)}</aside><article class="article-body">{guide[locale].sections.map((section,index)=><section id={`section-${index}`}><h2>{section.heading}</h2><p>{section.text}</p></section>)}<p class="editorial-note">{locale==='en'?'Editorial guide, not a sponsored review. Check the exact model manual and current course requirements before choosing. The store remains a demo; prices and checkout are for testing.':'Редакционное руководство, не рекламный обзор. Проверьте инструкцию точной модели и требования курса. Магазин остаётся демонстрационным: цены и оплата используются для тестирования.'}</p></article></div><section class="related-products"><h2>{locale==='en'?'Explore the models':'Посмотреть модели'}</h2><div class="product-grid">{products.filter(product=>guide.models.some(slug=>slug===product.slug)).map((product,index)=><ProductCard product={product} locale={locale} index={index}/>)}</div></section></>:null}
+ <section class="guide-list-section"><h2>{locale==='en'?'More clarity before you choose':'Больше ясности перед выбором'}</h2><div class="guide-grid">{guides.filter(item=>item.slug!==guide?.slug).map(item=><a class="guide-card" href={guidePath(locale,item.slug)}><span class="eyebrow">{locale==='en'?'READ THE GUIDE':'ЧИТАТЬ'}</span><h3>{item[locale].title}</h3><p>{item[locale].description}</p><span aria-hidden="true">↗</span></a>)}</div></section>
+ </div>
+</Layout>
